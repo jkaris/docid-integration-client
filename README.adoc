@@ -1,8 +1,122 @@
-# React + Vite
+= DOCID Integration Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive app with the aim of creating publications and assigning DOCID object, publishing and management of records. This client application has been developed using React, and integrates with the link:https://github.com/jkaris/docid-integration-backend[DOCID backend app].
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+== Project overview
+
+The DOCID client is a simplified tool for visualizing records, metadata and facilitating user management. Researchers and professionals, such as librarians etc. can view published records, create and edit records.
+
+[IMPORTANT]
+===========
+This README just outlines the basic project setup and layout.
+Make sure to check out the `README` files for the DOCID client and back-end.
+As they document how to set up, run tests as well as linters.
+
+* Back-end readme: link:https://github.com/jkaris/docid-integration-backend[backend readme]
+* Front-end readme: link:README.adoc[client readme]
+===========
+
+=== Structure overview
+
+NOTE: It is best to follow the structure section of the README in GitHub or
+GitLab since the links work best there.
+
+The application is split into two parts – the back-end (written in Python &amp;
+Flask), and the front-end, current application (written in JavaScript &amp; React).
+
+The general folder structure for the project can be seen below:
+
+----
+├── public               # Directory contains static files that are accessible from the root URL of your app
+├── src                  # Directory contains the source code of your application
+│   ├── assets           # GIS data and untility folder
+│   ├── components       # Directory of React components used in this project
+│   ├── pages            # Directory of pages used in this project
+│   ├── App.css          # Styling of the main App component
+│   ├── App.jsx          # Main application component
+│   ├── index.css        # Contains project styling
+│   ├── main.jsx         # Entry point for this React app
+├── .env.sample          # File containing the environment variables
+├── eslintr.cjs          # Configuration file used by ESLint, a popular JavaScript linter tool.
+├── .gitignore           # List of files and folders to be ignored by git
+├── .prettierignore      # File directing Prettier CLI and editors know which files to not format
+├── .prettierrc          # Config file to let editors and other tools know you are using Prettier
+├── docker-compose.yml   # Docker compose configuration contianing services for this app
+├── Dockerfile           # Docker instructions for building this app in development
+├── Dockerfile.prod      # Docker instructions for building this app in production
+├── index.html           # Main HTML template for this project
+├── Makefile             # Instructions on commands to run
+├── package.json         # List of all third-party
+dependencies
+├── pnpm-lock.yaml       # Indicates break down/ resolving all node package versions and their internal third-party via pnpm
+dependencies
+├── README.adoc          # Project's readme
+├── vite.config.js       # Contains Vite configuration
+
+----
+
+To perform some routine operations, a link:Makefile[Makefile] with a set of `make`
+commands is provided. In order to run these commands, the GNU `make` utility
+needs to be installed. Some of the commands are listed below.
+
+=== Setup
+
+
+==== System Prerequisites
+
+To be able to run this project in development, you require Node and pnpm package manager. The reason for choosing pnpm over npm is faster installation, space efficiency etc.
+
+- Installing NPM can be referenced from the link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js Binary Distributions]
+- Pnpm installation can be referred from link:https://pnpm.io/installation[pnpm installation]
+- Clone this project in your computer or server and run this command to install packages necessary to run this app via `git clone`
+- Navigate into this project directory and install packages using pnpm via `pnpm i` command.
+- Run in development via `pnpm run dev` which will run this app on the default port 5173 (refer to link:https://vitejs.dev/[vite documentation] for more details)
+
+To be able to run the project in Docker environment, it's necessary to have
+https://docs.docker.com/[`docker`] and
+https://docs.docker.com/compose/[`docker-compose`] installed.\
+
+TIP:  Please refer to
+https://docs.docker.com/install/[Docker installation docs] and +
+https://docs.docker.com/compose/install/[Docker Compose
+installation docs] to install them.
+
+
+=== QuickStart
+
+To build and setup the application from the ground up, just type:
+
+[source,bash]
+----
+make setup
+----
+
+This will create the necessary Docker containers and install the required
+pnpm packages.
+
+
+==== Application data
+
+At the start the project has no data in the database. No users, or projects.
+
+.To create a superuser:
+----
+make start-app
+----
+
+
+==== Running the application
+
+----
+make runserver
+----
+
+After a successful startup, the application should be accessible at
+http://127.0.0.1:5173 (Vite)
+
+[TIP]
+=====
+There are a number of other useful `make` commands which you can check out with
+`make help` or by looking at the link:Makefile[Makefile].
+=====
