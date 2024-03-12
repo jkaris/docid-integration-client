@@ -30,13 +30,10 @@ function Home() {
                             </Col>
                         </Row>
                             <CardGroup className="p-2">
-                                    <Card>
-                                        <Card.Img variant="top" src="apa-logo.png"/>
-                                    </Card>
-                                    <Card>
+                                    <Card className="m-5">
                                         <Card.Img variant="top" src="africa-pid-logo.png"/>
                                     </Card>
-                                    <Card>
+                                    <Card className="m-5">
                                         <Card.Img variant="top" src="tcc-logo.png"/>
                                     </Card>
                                 </CardGroup>
