@@ -1,14 +1,26 @@
 import React, {useState} from 'react';
-import {Modal, Button, Form, Row, Col, Toast, ToastContainer} from 'react-bootstrap';
+import {
+    Modal,
+    Button,
+    Form,
+    Row,
+    Col,
+    Toast,
+    ToastContainer,
+    ModalBody,
+    ButtonToolbar,
+    ButtonGroup
+} from 'react-bootstrap';
 import axios from "axios";
 
 const AUTH_API = import.meta.env.VITE_API_URL + "/auth";
 
-const UserModal = ({show, onHide, setIsLoggedIn }) => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const UserModal = ({show, onHide, setIsLoggedIn}) => {
+    const [userName, setUserName] = useState('');
+    const [userFullName, setUserFullName] = useState('');
+    const [userAffiliations, setUserAffiliations] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -18,24 +30,24 @@ const UserModal = ({show, onHide, setIsLoggedIn }) => {
 
     const isEmailValid = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+        return emailRegex.test(userEmail);
     };
 
     const handleLogin = async () => {
-        if (!email || !password) {
+        if (!userEmail || !userPassword) {
             setToastMessage('Please enter both email and password');
             setShowToast(true);
             return;
         }
 
-        if (!isEmailValid(email)) {
+        if (!isEmailValid(userEmail)) {
             setToastMessage('Please enter a valid email address');
             setShowToast(true);
             return;
         }
 
         try {
-            const response = await axios.post(`${AUTH_API}/login`, {email, password});
+            const response = await axios.post(`${AUTH_API}/login`, {userEmail, userPassword});
             setIsLoggedIn(true);
             console.log(response.data);
         } catch (error) {
@@ -51,20 +63,20 @@ const UserModal = ({show, onHide, setIsLoggedIn }) => {
     };
 
     const handleRegister = async () => {
-        if (!email && !password && !firstName && lastName) {
+        if (!userEmail && !userPassword && !userName && !userFullName) {
             setToastMessage('Please enter all the details');
             setShowToast(true);
             return;
         }
 
-        if (!isEmailValid(email)) {
+        if (!isEmailValid(userEmail)) {
             setToastMessage('Please enter a valid email address');
             setShowToast(true);
             return;
         }
 
         try {
-            const response = await axios.post(`${AUTH_API}/register`, {firstName, lastName, email, password});
+            const response = await axios.post(`${AUTH_API}/register`, {userName, userFullName, userAffiliations, userEmail, userPassword});
             setToastMessage('Sign Up successful');
             setShowToast(true);
             setIsRegistering(false);
@@ -93,17 +105,16 @@ const UserModal = ({show, onHide, setIsLoggedIn }) => {
     const handleSwitchMode = () => {
         setIsRegistering(!isRegistering);
         setIsLogin(!isLogin);
-        setEmail('');
-        setPassword('');
-        setLastName('');
-        setFirstName('');
+        setUserEmail('');
+        setUserPassword('');
+        setUserFullName('');
     };
 
     return (
         <>
             <Modal show={show} onHide={onHide}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{isRegistering ? 'Sign Up' : isLogin ? '': 'Sign In'}
+                    <Modal.Title>{isRegistering ? 'Sign up today' : isLogin ? '' : 'Log in to account'}
                         <ToastContainer position="top-center">
                             <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide>
                                 <Toast.Body className="text-danger">{toastMessage}</Toast.Body>
@@ -111,57 +122,70 @@ const UserModal = ({show, onHide, setIsLoggedIn }) => {
                         </ToastContainer>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <ModalBody className="bg-body-secondary">
+                    {isLogin ?
+                        <ButtonGroup size="sm">
+                            <Button className="m-1" variant="secondary">
+                                <i className="bi bi-github" aria-hidden="true"></i>
+                                Sign up with GitHub</Button>
+                            <Button className="m-1" variant="secondary">Sign up with ORCID</Button>
+                            <Button className="m-1" variant="secondary">Sign up with OpenAIRE</Button>
+                        </ButtonGroup> :
+                        <ButtonGroup size="sm">
+                            <Button className="m-1" variant="secondary">
+                                <i className="bi bi-github" aria-hidden="true"></i>
+                                Sign in with GitHub</Button>
+                            <Button className="m-1" variant="secondary">Sign in with ORCID</Button>
+                            <Button className="m-1" variant="secondary">Sign in OpenAIRE</Button>
+                        </ButtonGroup>}
+                </ModalBody>
+                <Modal.Body className="bg-primary-subtle">
                     {isRegistering ? (
                         <Form>
                             <Form.Group controlId="formBasicName">
-                                <Row>
-                                    <Col>
-                                        <Form.Label>First Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter first name" value={firstName}
-                                                      onChange={(e) => setFirstName(e.target.value)}/>
-                                    </Col>
-                                    <Col>
-                                        <Form.Label>Last Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter last name" value={lastName}
-                                                      onChange={(e) => setLastName(e.target.value)}/>
-                                    </Col>
-                                </Row>
+                                <Form.Control type="text" placeholder="Username" value={userName} className="mt-3 mb-3"
+                                              onChange={(e) => setUserName(e.target.value)}/>
+                                <Form.Control type="text" placeholder="Full name" value={userFullName}
+                                              className="mt-3 mb-3"
+                                              onChange={(e) => setUserFullName(e.target.value)}/>
+                                <Form.Control type="text" placeholder="Affiliations" value={userAffiliations}
+                                              className="mt-3 mb-3"
+                                              onChange={(e) => setUserAffiliations(e.target.value)}/>
                             </Form.Group>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" value={email}
-                                              onChange={(e) => setEmail(e.target.value)}/>
+                                <Form.Control type="email" placeholder="Email Address" value={userEmail}
+                                              className="mt-3 mb-3"
+                                              onChange={(e) => setUserEmail(e.target.value)}/>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" value={password}
-                                              onChange={(e) => setPassword(e.target.value)}/>
+                                <Form.Control type="password" placeholder="Password" value={userPassword}
+                                              className="mt-3 mb-3"
+                                              onChange={(e) => setUserPassword(e.target.value)}/>
                             </Form.Group>
                         </Form>
                     ) : (
                         <Form>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" value={email}
-                                              onChange={(e) => setEmail(e.target.value)}/>
+                                <Form.Control type="email" placeholder="Email Address" value={userEmail}
+                                              className="mt-3 mb-3"
+                                              onChange={(e) => setUserEmail(e.target.value)}/>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" value={password}
-                                              onChange={(e) => setPassword(e.target.value)}/>
+                                <Form.Control type="password" placeholder="Password" value={userPassword}
+                                              className="mt-3 mb-3"
+                                              onChange={(e) => setUserPassword(e.target.value)}
+                                />
                             </Form.Group>
                         </Form>
                     )}
                 </Modal.Body>
                 <Modal.Footer>
+                    {isRegistering ? <p>Already have an account?</p> : <p>Don't have an account?</p>}
                     <Button variant="link" onClick={handleSwitchMode}>
                         {isRegistering ? 'Sign In' : 'Sign Up'}
                     </Button>
-                    <Button variant="secondary" onClick={onHide}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
+                    <Button variant="outline-primary" onClick={handleSubmit}>
+                        <i className="bi bi-box-arrow-in-right"></i>
                         {isRegistering ? 'Sign Up' : 'Sign In'}
                     </Button>
                 </Modal.Footer>
