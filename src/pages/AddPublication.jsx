@@ -6,6 +6,12 @@ import BasicInfo from "../components/basicinformation/BasicInfo.jsx";
 import AddOrgCreatorModal from "../components/organization/Organization.jsx";
 import axios from "axios";
 import AddCreatorModal from "../components/modal/CreatorModal.jsx";
+import DocIdObject from "../components/DocIdObject.jsx";
+import MediaObject from "../components/MediaUpload.jsx";
+import MediaUpload from "../components/MediaUpload.jsx";
+import CreatorOrganization from "../components/CreatorOrganization.jsx";
+import Funders from "../components/Funders.jsx";
+import Project from "../components/Project.jsx";
 
 function AddPublication(props) {
     const fileUploadRef = useRef(null);
@@ -61,50 +67,64 @@ function AddPublication(props) {
     }
     const items = [
         {
-            title: 'Files',
-            content: 'File upload',
+            title: 'DOCID',
+            content: 'Generate DocID',
             widgets: [
-                <FileUpload onUpload={() => handleFileUpload} ref={fileUploadRef} setFileId={setFileId}/>
+                <p>Please genenrate DocID for this record below</p>,
+                <DocIdObject/>
             ],
         },
+        // {
+        //     title: 'Basic Information',
+        //     content: 'Enter basic info',
+        //     widgets: [
+        //         <BasicInfo selectedOption={selectedOption} setSelectedOption={setSelectedOption}
+        //                    selectedDate={selectedDate} setSelectedDate={setSelectedDate}
+        //                    doi={doi} setDOI={setDOI}
+        //                    resourceTypes={resourceTypes} setResourceTypes={setResourceTypes}
+        //                    selectedResourceType={selectedResourceType} setSelectedResourceType={setSelectedResourceType}
+        //                    title={title} setTitle={setTitle}
+        //                    description={description} setDescription={setDescription}
+        //                    showModal={showModal} setShowModal={setShowModal}
+        //                    formData={formData} setFormData={setFormData}
+        //                    error={error} setError={setError}
+        //                    placeholderValue={placeholderValue} setPlaceholderValue={setPlaceholderValue}
+        //         />
+        //     ],
+        // },
         {
-            title: 'Organization',
-            content: <Button variant="primary" onClick={() => <AddOrgCreatorModal show={props.showModal}/>}>Add Organization</Button>,
+            title: 'Files / Media',
+            content: 'Upload Files',
             widgets: [
-                <AddOrgCreatorModal
-                    show={props.showModal}
-                    handleClose={props.handleCloseModal}
-                    formData={props.formData}
-                    setFormData={props.setFormData}
-                    handleSave={props.handleSaveModalFormData}
-                />
+                <p>Please upload files below</p>,
+                <MediaUpload/>,
+            ],
+        },
+        // {
+        //     title: 'Files',
+        //     content: 'File upload',
+        //     widgets: [
+        //         <FileUpload onUpload={() => handleFileUpload} ref={fileUploadRef} setFileId={setFileId}/>
+        //     ],
+        // },
+        {
+            title: 'Creator / Organization',
+            content: <p>Add creator or organization</p>,
+            widgets: [
+                <CreatorOrganization/>
             ]
+        },
+        {
+            title: 'Funding',
+            content: 'Funders & Granters',
+            widgets: [<Funders/>,]
         },
         {
             title: 'Project',
             content: 'Add Project',
-        },
-        {
-            title: 'Funding',
-            content: 'Add Funders',
-        },
-        {
-            title: 'Basic Information',
-            content: 'Digital Object Identifier',
             widgets: [
-                <BasicInfo selectedOption={selectedOption} setSelectedOption={setSelectedOption}
-                           selectedDate={selectedDate} setSelectedDate={setSelectedDate}
-                           doi={doi} setDOI={setDOI}
-                           resourceTypes={resourceTypes} setResourceTypes={setResourceTypes}
-                           selectedResourceType={selectedResourceType} setSelectedResourceType={setSelectedResourceType}
-                           title={title} setTitle={setTitle}
-                           description={description} setDescription={setDescription}
-                           showModal={showModal} setShowModal={setShowModal}
-                           formData={formData} setFormData={setFormData}
-                           error={error} setError={setError}
-                           placeholderValue={placeholderValue} setPlaceholderValue={setPlaceholderValue}
-                />
-            ],
+                <Project/>
+            ]
         }
     ];
 

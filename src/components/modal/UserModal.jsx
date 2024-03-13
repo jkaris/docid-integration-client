@@ -3,12 +3,9 @@ import {
     Modal,
     Button,
     Form,
-    Row,
-    Col,
     Toast,
     ToastContainer,
     ModalBody,
-    ButtonToolbar,
     ButtonGroup
 } from 'react-bootstrap';
 import axios from "axios";
@@ -112,7 +109,7 @@ const UserModal = ({show, onHide, setIsLoggedIn}) => {
 
     return (
         <>
-            <Modal show={show} onHide={onHide}>
+            <Modal show={show} onHide={onHide} backdrop="static">
                 <Modal.Header closeButton>
                     <Modal.Title>{isRegistering ? 'Sign up today' : isLogin ? '' : 'Log in to account'}
                         <ToastContainer position="top-center">
