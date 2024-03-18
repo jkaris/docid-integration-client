@@ -74,24 +74,6 @@ function AddPublication(props) {
                 <DocIdObject/>
             ],
         },
-        // {
-        //     title: 'Basic Information',
-        //     content: 'Enter basic info',
-        //     widgets: [
-        //         <BasicInfo selectedOption={selectedOption} setSelectedOption={setSelectedOption}
-        //                    selectedDate={selectedDate} setSelectedDate={setSelectedDate}
-        //                    doi={doi} setDOI={setDOI}
-        //                    resourceTypes={resourceTypes} setResourceTypes={setResourceTypes}
-        //                    selectedResourceType={selectedResourceType} setSelectedResourceType={setSelectedResourceType}
-        //                    title={title} setTitle={setTitle}
-        //                    description={description} setDescription={setDescription}
-        //                    showModal={showModal} setShowModal={setShowModal}
-        //                    formData={formData} setFormData={setFormData}
-        //                    error={error} setError={setError}
-        //                    placeholderValue={placeholderValue} setPlaceholderValue={setPlaceholderValue}
-        //         />
-        //     ],
-        // },
         {
             title: 'Files / Media',
             content: 'Upload Files',
@@ -100,13 +82,6 @@ function AddPublication(props) {
                 <MediaUpload/>,
             ],
         },
-        // {
-        //     title: 'Files',
-        //     content: 'File upload',
-        //     widgets: [
-        //         <FileUpload onUpload={() => handleFileUpload} ref={fileUploadRef} setFileId={setFileId}/>
-        //     ],
-        // },
         {
             title: 'Creator / Organization',
             content: <p>Add creator or organization</p>,

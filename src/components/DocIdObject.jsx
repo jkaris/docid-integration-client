@@ -3,6 +3,8 @@ import axios from 'axios';
 import {Button, Form} from "react-bootstrap";
 import Select from "react-select";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const DocIdObject = () => {
     const [docId, setDocId] = useState('');
     const [loading, setLoading] = useState(false);
@@ -18,7 +20,8 @@ const DocIdObject = () => {
             setError('');
 
             // Send a request to the API endpoint to generate DOCID
-            const response = await axios.get('http://localhost:5000/doi/get-docid-doi');
+            const response = await axios.get(`${API_URL}/doi/get-docid-doi`);
+            console.log(response);
 
             // Assuming the response data contains the generated DOCID
             setDocId(response.data.docid_doi);
@@ -41,7 +44,7 @@ const DocIdObject = () => {
     useEffect(() => {
         const fetchResourceTypes = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/utils/object-types');
+                const response = await axios.get(`${API_URL}/utils/object-types`);
                 setResourceTypes(response.data);
             } catch (error) {
                 console.error('Error fetching resource types:', error);
