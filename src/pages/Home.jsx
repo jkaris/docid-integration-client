@@ -16,7 +16,7 @@ function Home() {
                     <Container>
                         <Row>
                             <Col>
-                                <h1>Welcome to the DOCID Integration App</h1>
+                                <h1>Welcome to the DOCiD Integration App</h1>
                                 <p>Considering the fast and growing need for scholarly data infrastructures in Africa,
                                     and the diverse economic development in the continent. The reality is that some
                                     universities can afford DOIs but not for all scholarly and research output, while
