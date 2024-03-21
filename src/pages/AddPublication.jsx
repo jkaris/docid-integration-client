@@ -70,7 +70,7 @@ function AddPublication(props) {
     const items = [
         {
             title: 'DOCiD',
-            content: 'Generate DICiD',
+            content: 'Generate DOCiD',
             widgets: [
                 <p>Please generate DOCiD for this record below</p>,
                 <DocIdObject/>
