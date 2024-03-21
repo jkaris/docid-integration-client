@@ -12,6 +12,8 @@ import MediaUpload from "../components/MediaUpload.jsx";
 import CreatorOrganization from "../components/CreatorOrganization.jsx";
 import Funders from "../components/Funders.jsx";
 import Project from "../components/Project.jsx";
+import AssociateLiterature from "../components/AssociateLiterature.jsx";
+import SomeRandomAccordion from "../components/SomeRandomAccordion.jsx";
 
 function AddPublication(props) {
     const fileUploadRef = useRef(null);
@@ -75,6 +77,14 @@ function AddPublication(props) {
             ],
         },
         {
+            title: 'Associate Literature',
+            content: 'Add Literature',
+            widgets: [
+                <p>Please add literature</p>,
+                <AssociateLiterature/>,
+            ],
+        },
+        {
             title: 'Files / Media',
             content: 'Upload Files',
             widgets: [
@@ -100,7 +110,14 @@ function AddPublication(props) {
             widgets: [
                 <Project/>
             ]
-        }
+        },
+        // {
+        //     title: 'Some Random Accordion',
+        //     content: 'Add Random',
+        //     widgets: [
+        //         <SomeRandomAccordion/>
+        //     ]
+        // }
     ];
 
 

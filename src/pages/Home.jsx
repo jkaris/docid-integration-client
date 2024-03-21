@@ -23,7 +23,7 @@ function Home() {
                                     the bulk of research content is in gray literature in Africa. Adding to that the
                                     unicity of what the APA RA would like to specialize in, which is indigenous
                                     knowledge and cultural heritage, and patent digital object containers.</p>
-                                <Button onClick={handleShowLoginModal} className="btn-outline-light">Get Started</Button>
+                                <Button onClick={handleShowLoginModal} variant="outline-info" size="lg">Get Started</Button>
                                 <UserModal
                                     show={showLoginModal}
                                     onHide={handleCloseLoginModal}/>

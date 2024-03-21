@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Button, Form} from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
 import Select from "react-select";
+import Container from "react-bootstrap/Container";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -66,37 +67,30 @@ const DocIdObject = () => {
 
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col">
-                    <div className="form-check mb-3">
-                        <input
-                            type="radio"
-                            className="form-check-input"
+        <Container>
+            <Row>
+                <Col>
+                    <Form.Group className="mb-3">
+                        <Form.Check
                             id="radioYes"
                             value={true}
                             checked={alreadyHasDocId}
                             onChange={handleRadioChange}
                         />
-                        <label className="form-check-label" htmlFor="radioYes">
+                        <Form.Label className="mb-3" htmlFor="radioYes">
                             Already have DOCID
-                        </label>
-                    </div>
-                    <div className="form-check mb-3">
-                        <input
-                            type="radio"
-                            className="form-check-input"
+                        </Form.Label>
+                        <Form.Check
                             id="radioNo"
                             value={false}
                             checked={!alreadyHasDocId}
                             onChange={handleRadioChange}
                         />
-                        <label className="form-check-label" htmlFor="radioNo">
+                        <Form.Label className="mb-3" htmlFor="radioNo">
                             Don't have DOCID
-                        </label>
-                    </div>
-                    <div className="input-group mb-3">
+                        </Form.Label>
                         <Form.Control
+                            required
                             type="text"
                             className="form-control"
                             placeholder="Generated DOCID"
@@ -105,7 +99,6 @@ const DocIdObject = () => {
                             readOnly={!alreadyHasDocId}
                             onKeyUp={(e) => setDocId(e.target.value)}
                         />
-                        <div className="input-group-append">
                             <Button
                                 className="btn btn-primary"
                                 type="button"
@@ -114,10 +107,8 @@ const DocIdObject = () => {
                             >
                                 {loading ? 'Generating...' : 'Generate DOCID'}
                             </Button>
-                        </div>
-                    </div>
+                    </Form.Group>
                     {error && <div className="text-danger">{error}</div>}
-                    <div>
                         <Form.Group>
                             <Form.Label><h5>Resource Type</h5></Form.Label>
                             <Select
@@ -138,10 +129,9 @@ const DocIdObject = () => {
                                           onChange={handleDescriptionChange}
                             />
                         </Form.Group>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

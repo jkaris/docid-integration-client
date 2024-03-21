@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Select from "react-select";
 
-const MediaUpload = () => {
+const AssociateLiterature = () => {
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: '', description: '', mediaType: '' });
 
@@ -144,22 +144,9 @@ const MediaUpload = () => {
                                 <Form.Group controlId={`fileMediaType_${index}`}>
                                     <Form.Label>Media Type</Form.Label>
                                     <Select placeholder="Select Media Type" options={mediaOptions} />
-                                    {/*<Form.Control*/}
-                                    {/*    as="select"*/}
-                                    {/*    name="mediaType"*/}
-                                    {/*    value={mediaType || ''}*/}
-                                    {/*    onChange={(e) => handleMetadataChange(e, index)}*/}
-                                    {/*>*/}
-                                    {/*    <option value="">Select media type</option>*/}
-                                    {/*    <option value="patent">Patent</option>*/}
-                                    {/*    <option value="preprint">Preprint</option>*/}
-                                    {/*    <option value="video">Video</option>*/}
-                                    {/*    <option value="webinar">Webinar</option>*/}
-                                    {/*</Form.Control>*/}
                                 </Form.Group>
                             </Col>
                             <Col xs="auto">
-                                {/*<Button variant="primary" onClick={() => handleGenerateId(index)}>Generate ID</Button>*/}
                                 <Select placeholder="Select ID" options={identifierOptions} className="m-3"/>
                             </Col>
                             <Col xs="auto">
@@ -169,12 +156,9 @@ const MediaUpload = () => {
                         </Row>
                     </div>
                 ))}
-                {/*<Button variant="primary" type="submit">*/}
-                {/*    Upload*/}
-                {/*</Button>*/}
             </Form>
         </Container>
     );
 };
 
-export default MediaUpload;
+export default AssociateLiterature;
