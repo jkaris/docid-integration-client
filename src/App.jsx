@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom";
-import MainHead from "./components/navbar/MainHeader.jsx";
-import Footer from "./components/footer/Footer.jsx";
+import MainHead from "./components/MainHeader.jsx";
+import Footer from "./components/Footer.jsx";
 import AddPublication from "./pages/AddPublication.jsx";
 import ListPublications from "./pages/ListPublications.jsx";
 import ViewPublication from "./pages/ViewPublication.jsx";

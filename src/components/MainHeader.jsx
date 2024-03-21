@@ -3,8 +3,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Button} from "react-bootstrap";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import Search from "../search/Search.jsx";
-import {LanguageSelector} from "../languageselector/LanguageSelector.jsx";
+import Search from "./Search.jsx";
+import {LanguageSelector} from "./LanguageSelector.jsx";
 function NavigationBar({routes}) {
     const expand = false;
     return (

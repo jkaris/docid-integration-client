@@ -3,17 +3,15 @@ import {
     Modal,
     Button,
     Form,
-    // Toast,
-    ToastContainer,
     ModalBody,
     ButtonGroup
 } from "react-bootstrap";
 import axios from "axios";
-import UserAuthToast from "../toast/UserAuthToast.jsx";
+import UserAuthToast from "./toast/UserAuthToast.jsx";
 
 const AUTH_API = import.meta.env.VITE_API_URL + "/auth";
 
-const UserModal = ({ show, onHide, setIsLoggedIn }) => {
+const UserAuthentication = ({ show, onHide, setIsLoggedIn }) => {
     const [userName, setUserName] = useState("");
     const [userFullName, setUserFullName] = useState("");
     const [userAffiliations, setUserAffiliations] = useState("");
@@ -196,4 +194,4 @@ const UserModal = ({ show, onHide, setIsLoggedIn }) => {
     );
 };
 
-export default UserModal;
+export default UserAuthentication;

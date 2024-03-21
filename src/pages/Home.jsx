@@ -1,9 +1,7 @@
 import Container from "react-bootstrap/Container";
 import {Button, Col, Card, CardGroup, Row} from "react-bootstrap";
-import UserModal from "../components/modal/UserModal.jsx";
+import UserAuthentication from "../components/UserAuthentication.jsx";
 import {useState} from "react";
-import ProtectedRoute from "../components/ProtectedRoute.jsx";
-
 function Home() {
     const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -24,7 +22,7 @@ function Home() {
                                     unicity of what the APA RA would like to specialize in, which is indigenous
                                     knowledge and cultural heritage, and patent digital object containers.</p>
                                 <Button onClick={handleShowLoginModal} variant="outline-info" size="lg">Get Started</Button>
-                                <UserModal
+                                <UserAuthentication
                                     show={showLoginModal}
                                     onHide={handleCloseLoginModal}/>
                             </Col>

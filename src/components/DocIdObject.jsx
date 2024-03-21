@@ -19,12 +19,8 @@ const DocIdObject = () => {
         try {
             setLoading(true);
             setError('');
-
-            // Send a request to the API endpoint to generate DOCID
             const response = await axios.get(`${API_URL}/doi/get-docid-doi`);
             console.log(response);
-
-            // Assuming the response data contains the generated DOCID
             setDocId(response.data.docid_doi);
         } catch (error) {
             setError('Error generating DOCID. Please try again.');
@@ -35,9 +31,8 @@ const DocIdObject = () => {
 
     const handleRadioChange = (event) => {
         setAlreadyHasDocId(event.target.value === 'true');
-        setDocId(''); // Clear the DOCID when the radio button changes
+        setDocId('');
     };
-
     const handleInputChange = (event) => {
         setDocId(event.target.value);
     };
@@ -70,7 +65,7 @@ const DocIdObject = () => {
         <Container>
             <Row>
                 <Col>
-                    <Form.Group className="mb-3">
+                    <Form className="mb-3">
                         <Form.Check
                             id="radioYes"
                             value={true}
@@ -107,7 +102,7 @@ const DocIdObject = () => {
                             >
                                 {loading ? 'Generating...' : 'Generate DOCID'}
                             </Button>
-                    </Form.Group>
+                    </Form>
                     {error && <div className="text-danger">{error}</div>}
                         <Form.Group>
                             <Form.Label><h5>Resource Type</h5></Form.Label>

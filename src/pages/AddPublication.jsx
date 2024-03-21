@@ -1,19 +1,13 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {Button, Col, Form, Row} from "react-bootstrap";
-import ReusableAccordion from "../components/accordion/MyAccordion.jsx";
-import FileUpload from "../components/fileupload/FileUpload.jsx";
-import BasicInfo from "../components/basicinformation/BasicInfo.jsx";
-import AddOrgCreatorModal from "../components/organization/Organization.jsx";
+import ReusableAccordion from "../components/MyAccordion.jsx";
 import axios from "axios";
-import AddCreatorModal from "../components/modal/CreatorModal.jsx";
 import DocIdObject from "../components/DocIdObject.jsx";
-import MediaObject from "../components/MediaUpload.jsx";
 import MediaUpload from "../components/MediaUpload.jsx";
 import CreatorOrganization from "../components/CreatorOrganization.jsx";
 import Funders from "../components/Funders.jsx";
 import Project from "../components/Project.jsx";
 import AssociateLiterature from "../components/AssociateLiterature.jsx";
-import SomeRandomAccordion from "../components/SomeRandomAccordion.jsx";
 
 function AddPublication(props) {
     const fileUploadRef = useRef(null);
