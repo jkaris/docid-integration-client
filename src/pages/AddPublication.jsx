@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {Button, Col, Form, Row} from "react-bootstrap";
-import ReusableAccordion from "../components/MyAccordion.jsx";
+import ReusableAccordion from "../components/ReusableAccordion.jsx";
 import axios from "axios";
 import DocIdObject from "../components/DocIdObject.jsx";
 import MediaUpload from "../components/MediaUpload.jsx";

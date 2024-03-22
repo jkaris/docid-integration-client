@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import Container from "react-bootstrap/Container";
@@ -7,31 +7,32 @@ import Container from "react-bootstrap/Container";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const DocIdObject = () => {
-    const [docId, setDocId] = useState('');
+    const [docId, setDocId] = useState("");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState("");
     const [alreadyHasDocId, setAlreadyHasDocId] = useState(false);
     const [resourceTypes, setResourceTypes] = useState([]);
-    const [description, setDescription] = useState('');
+    const [docidTitle, setDocidTitle] = useState("");
+    const [docidDescription, setDocidDescription] = useState("");
     const [selectedResourceType, setSelectedResourceType] = useState(null);
 
     const generateDocId = async () => {
         try {
             setLoading(true);
-            setError('');
+            setError("");
             const response = await axios.get(`${API_URL}/doi/get-docid-doi`);
             console.log(response);
             setDocId(response.data.docid_doi);
         } catch (error) {
-            setError('Error generating DOCID. Please try again.');
+            setError("Error generating DOCID. Please try again.");
         } finally {
             setLoading(false);
         }
     };
 
     const handleRadioChange = (event) => {
-        setAlreadyHasDocId(event.target.value === 'true');
-        setDocId('');
+        setAlreadyHasDocId(event.target.value === "true");
+        setDocId("");
     };
     const handleInputChange = (event) => {
         setDocId(event.target.value);
@@ -43,7 +44,7 @@ const DocIdObject = () => {
                 const response = await axios.get(`${API_URL}/utils/object-types`);
                 setResourceTypes(response.data);
             } catch (error) {
-                console.error('Error fetching resource types:', error);
+                console.error("Error fetching resource types:", error);
             }
         };
         fetchResourceTypes();
@@ -52,12 +53,16 @@ const DocIdObject = () => {
 
     const handleResourceTypeChange = (selectedOption) => {
         const selectedIndex = resourceTypes.findIndex(type => type.id === selectedOption.value);
-        console.log('Selected Resource Type Index:', selectedIndex);
+        console.log("Selected Resource Type Index:", selectedIndex);
         setSelectedResourceType(selectedIndex);
     };
+    const handleDocidTitleChange = (e) => {
+        setDocidTitle(e.target.value);
+    };
 
-    const handleDescriptionChange = (e) => {
-        setDescription(e.target.value);
+
+    const handleDocidDescriptionChange = (e) => {
+        setDocidDescription(e.target.value);
     };
 
 
@@ -94,36 +99,39 @@ const DocIdObject = () => {
                             readOnly={!alreadyHasDocId}
                             onKeyUp={(e) => setDocId(e.target.value)}
                         />
-                            <Button
-                                className="btn btn-primary"
-                                type="button"
-                                onClick={generateDocId}
-                                disabled={loading || alreadyHasDocId}
-                            >
-                                {loading ? 'Generating...' : 'Generate DOCID'}
-                            </Button>
+                        <Button
+                            className="btn btn-primary"
+                            type="button"
+                            onClick={generateDocId}
+                            disabled={loading || alreadyHasDocId}
+                        >
+                            {loading ? "Generating..." : "Generate DOCID"}
+                        </Button>
                     </Form>
                     {error && <div className="text-danger">{error}</div>}
-                        <Form.Group>
-                            <Form.Label><h5>Resource Type</h5></Form.Label>
-                            <Select
-                                className="mb-3"
-                                onChange={handleResourceTypeChange}
-                                options={resourceTypes.map(type => ({
-                                    value: type.id,
-                                    label: type.name
-                                }))}
-                                placeholder="Select resource type..."
-                                required
-                            />
-                            <Form.Label><h5>Description</h5></Form.Label>
-                            <Form.Control required
-                                          as="textarea" rows={3}
-                                          placeholder="Add a description"
-                                          value={description}
-                                          onChange={handleDescriptionChange}
-                            />
-                        </Form.Group>
+                    <Form.Group>
+                        <Form.Label><h5>Resource Type</h5></Form.Label>
+                        <Select
+                            className="mb-3"
+                            onChange={handleResourceTypeChange}
+                            options={resourceTypes.map(type => ({
+                                value: type.id,
+                                label: type.name
+                            }))}
+                            placeholder="Select resource type..."
+                            required
+                        />
+                        <Form.Label><h5>Title</h5></Form.Label>
+                        <Form.Control required type="text" placeholder="Add a title" value={docidTitle}
+                                      onChange={handleDocidTitleChange} />
+                        <Form.Label><h5>Description</h5></Form.Label>
+                        <Form.Control required
+                                      as="textarea" rows={3}
+                                      placeholder="Add a description"
+                                      value={docidDescription}
+                                      onChange={handleDocidDescriptionChange}
+                        />
+                    </Form.Group>
                 </Col>
             </Row>
         </Container>
