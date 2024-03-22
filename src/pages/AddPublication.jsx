@@ -3,7 +3,7 @@ import {Button, Col, Form, Row} from "react-bootstrap";
 import ReusableAccordion from "../components/ReusableAccordion.jsx";
 import axios from "axios";
 import DocIdObject from "../components/DocIdObject.jsx";
-import MediaUpload from "../components/MediaUpload.jsx";
+import Media from "../components/Media.jsx";
 import CreatorOrganization from "../components/CreatorOrganization.jsx";
 import Funders from "../components/Funders.jsx";
 import Project from "../components/Project.jsx";
@@ -79,11 +79,11 @@ function AddPublication(props) {
             ],
         },
         {
-            title: 'Files / Media',
-            content: 'Upload Files',
+            title: 'Media',
+            content: 'Upload Media',
             widgets: [
-                <p>Please upload files below</p>,
-                <MediaUpload/>,
+                <p>Please upload media below</p>,
+                <Media/>,
             ],
         },
         {
