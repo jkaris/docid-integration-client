@@ -4,10 +4,11 @@ import ReusableAccordion from "../components/ReusableAccordion.jsx";
 import axios from "axios";
 import DocIdObject from "../components/DocIdObject.jsx";
 import Media from "../components/Media.jsx";
-import CreatorOrganization from "../components/CreatorOrganization.jsx";
-import Funders from "../components/Funders.jsx";
+import Funders from "../components/Funder.jsx";
 import Project from "../components/Project.jsx";
 import AssociateLiterature from "../components/AssociateLiterature.jsx";
+import CreatorOrganization from "../components/CreatorOrganization.jsx";
+import Organization from "../components/Organization.jsx";
 
 function AddPublication(props) {
     const fileUploadRef = useRef(null);
@@ -71,32 +72,38 @@ function AddPublication(props) {
             ],
         },
         {
-            title: 'Associate Literature',
-            content: 'Add Literature',
+            title: 'Add Literature',
+            content: 'Literature',
             widgets: [
-                <p>Please add literature</p>,
+                <p>Please add literature content below</p>,
                 <AssociateLiterature/>,
             ],
         },
         {
-            title: 'Media',
-            content: 'Upload Media',
+            title: 'Add Media',
+            content: 'Upload media',
             widgets: [
-                <p>Please upload media below</p>,
+                <p>Please upload media files below</p>,
                 <Media/>,
             ],
         },
         {
-            title: 'Creator / Organization',
-            content: <p>Add creator or organization</p>,
+            title: 'Add Creator / Organization',
+            content: <></>,
             widgets: [
-                <CreatorOrganization/>
+                <h4>Add creators</h4>,
+                <CreatorOrganization />,
+                <h4>Add organizations</h4>,
+                <Organization/>,
             ]
         },
         {
             title: 'Funding',
-            content: 'Funders & Granters',
-            widgets: [<Funders/>,]
+            content: 'Funders / Granters',
+            widgets: [
+                <p>Add funder /grantor</p>,
+                <Funders/>
+            ]
         },
         {
             title: 'Project',
@@ -105,13 +112,6 @@ function AddPublication(props) {
                 <Project/>
             ]
         },
-        // {
-        //     title: 'Some Random Accordion',
-        //     content: 'Add Random',
-        //     widgets: [
-        //         <SomeRandomAccordion/>
-        //     ]
-        // }
     ];
 
 

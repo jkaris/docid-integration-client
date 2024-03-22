@@ -8,10 +8,10 @@ const AssociateLiterature = () => {
     const [resourceType, setResourceType] = useState(null);
     const [selectedMediaType, setSelectedMediaType] = useState(null);
     const [selectedIdentifierType, setSelectedIdentifierType] = useState(null);
-    const [doi, setDoi] = useState(null);
-    const [raidDoi, setRaidDoi] = useState(null);
-    const [dataciteDoi, setdataciteDoi] = useState(null);
-    const [crossRefDoi, setcrossRefDoi] = useState(null);
+    const [doi, setDoi] = useState('');
+    const [raidDoi, setRaidDoi] = useState('');
+    const [dataciteDoi, setdataciteDoi] = useState('');
+    const [crossRefDoi, setcrossRefDoi] = useState('');
     const generateDoi = () => {
         const min = 10.1000 / 182;
         const max = 10.9999 / 999;
@@ -59,6 +59,10 @@ const AssociateLiterature = () => {
         {
             value: "article",
             label: "Article"
+        },
+        {
+            value: "preprint",
+            label: "Preprint"
         }
     ];
 

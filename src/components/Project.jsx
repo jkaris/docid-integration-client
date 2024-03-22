@@ -1,46 +1,48 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
-const Project = () => {
-    // State variables to store project title and description
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+const Project = ({ onAddProject }) => {
+    const [rows, setRows] = useState([{ title: '', description: '' }]);
 
-    // Function to handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Implement form submission logic here
-        console.log('Project title:', title);
-        console.log('Project description:', description);
+    const handleInputChange = (value, fieldName, rowIndex) => {
+        const updatedRows = [...rows];
+        updatedRows[rowIndex][fieldName] = value;
+        setRows(updatedRows);
+    };
+
+    const handleAddRow = () => {
+        setRows([...rows, { title: '', description: '' }]);
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="projectTitle">
-                <Form.Label>Project Title</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Enter project title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </Form.Group>
-
-            <Form.Group controlId="projectDescription">
-                <Form.Label>Project Description</Form.Label>
-                <Form.Control
-                    as="textarea"
-                    rows={3}
-                    placeholder="Enter project description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-            </Form.Group>
-
-            {/*<Button variant="primary" type="submit">*/}
-            {/*    Submit*/}
-            {/*</Button>*/}
-        </Form>
+        <div>
+            {rows.map((row, index) => (
+                <Row key={index} className="m-3 align-items-center">
+                    <Col>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter project title"
+                            value={row.title}
+                            onChange={(e) => handleInputChange(e.target.value, 'title', index)}
+                        />
+                    </Col>
+                    <Col>
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            placeholder="Enter project description"
+                            value={row.description}
+                            onChange={(e) => handleInputChange(e.target.value, 'description', index)}
+                        />
+                    </Col>
+                    <Col xs="auto">
+                        {index === rows.length - 1 && (
+                            <Button variant="success" onClick={handleAddRow}>+</Button>
+                        )}
+                    </Col>
+                </Row>
+            ))}
+        </div>
     );
 };
 
