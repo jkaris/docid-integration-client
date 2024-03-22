@@ -1,10 +1,66 @@
-import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Form, Button, Container, Row, Col, FloatingLabel } from "react-bootstrap";
 import Select from "react-select";
 
 const AssociateLiterature = () => {
     const [files, setFiles] = useState([]);
-    const [metadata, setMetadata] = useState({ title: '', description: '', mediaType: '' });
+    const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
+    const [resourceType, setResourceType] = useState(null);
+    const [selectedMediaType, setSelectedMediaType] = useState(null);
+    const [selectedIdentifierType, setSelectedIdentifierType] = useState(null);
+    const [doi, setDoi] = useState(null);
+    const [raidDoi, setRaidDoi] = useState(null);
+    const [dataciteDoi, setdataciteDoi] = useState(null);
+    const [crossRefDoi, setcrossRefDoi] = useState(null);
+    const generateDoi = () => {
+        const min = 10.1000 / 182;
+        const max = 10.9999 / 999;
+        const newDoi = min + Math.random() * (max - min);
+        setDoi(newDoi.toFixed(5));
+    };
+    const generateRaidDoi = () => {
+        const min = 13.1010 / 1000;
+        const max = 13.9999 / 9999;
+        const newRaidDoi = min + Math.random() * (max - min);
+        setRaidDoi(newRaidDoi.toFixed(5));
+    };
+    const identifierOptions = [
+        {
+            value: "doi",
+            label: "DOI"
+        },
+        {
+            value: "datacite",
+            label: "DataCite"
+        },
+        {
+            value: "raid",
+            label: "RAID"
+        },
+        {
+            value: "crossref",
+            label: "CrossRef"
+        }
+    ];
+
+    const mediaOptions = [
+        {
+            value: "dataset",
+            label: "Dataset"
+        },
+        {
+            value: "conference proceeding",
+            label: "Conference Proceeding"
+        },
+        {
+            value: "article",
+            label: "Webinar"
+        },
+        {
+            value: "article",
+            label: "Article"
+        }
+    ];
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -24,78 +80,39 @@ const AssociateLiterature = () => {
         setFiles(updatedFiles);
     };
 
+    const handleMediaTypeChange = (selectedOption) => {
+        setSelectedMediaType(selectedOption);
+    };
+
+    const handleIdentifierTypeChange = (selectedIdentifierType) => {
+        setSelectedIdentifierType(selectedIdentifierType);
+    };
+
     const handleGenerateId = async (index) => {
         const { mediaType } = files[index];
-        if (mediaType === 'patent') {
-            // Logic to fetch DOI
-            console.log('Generating DOI for patent');
-        } else if (mediaType === 'webinar') {
-            // Logic to fetch Handles
-            console.log('Generating Handles for webinar');
+        if (mediaType === "patent") {
+            console.log("Generating DOI for patent");
+        } else if (mediaType === "webinar") {
+            console.log("Generating Handles for webinar");
         }
-        // Add other conditions for different media types if needed
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare data to send to the server
         const formData = new FormData();
         files.forEach(({ file, ...metadata }) => {
-            formData.append('files', file);
+            formData.append("files", file);
             Object.entries(metadata).forEach(([key, value]) => {
                 formData.append(`${file.name}_${key}`, value);
             });
         });
-
-        // Send formData to the server using Axios or Fetch
-        console.log('FormData:', formData);
-        // Example: axios.post('/upload', formData);
+        console.log("FormData:", formData);
     };
 
-    const identifierOptions = [
-        {
-            value: 'doi',
-            label: 'DOI'
-        },
-        {
-            value: 'datacite',
-            label: 'DataCite'
-        },
-        {
-            value: 'raid',
-            label: 'RAID'
-        },
-        {
-            value: 'crossref',
-            label: 'CrossRef'
-        },
-    ]
-
-    const mediaOptions = [
-        {
-            value: 'interview',
-            label: 'Interview'
-        },
-        {
-            value: 'illustration',
-            label: 'Illustration'
-        },
-        {
-            value: 'webinar',
-            label: 'Webinar'
-        },
-        {
-            value: 'video',
-            label: 'Video'
-        },
-        {
-            value: 'article',
-            label: 'Article'
-        },
-    ]
+    const idSelector = <Select placeholder="Select ID" options={identifierOptions}
+                               className="m-3" isDisabled={true} id="idSelector" />;
 
     return (
-        <Container>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="fileUpload">
                     <Form.Label>Upload Files</Form.Label>
@@ -103,7 +120,7 @@ const AssociateLiterature = () => {
                 </Form.Group>
                 {files.map(({ file, title, description, mediaType }, index) => (
                     <div key={index}>
-                        <Row>
+                        <Row className="m-3">
                             <Col>
                                 <Form.Group controlId={`fileName_${index}`}>
                                     <Form.Label>File Name</Form.Label>
@@ -122,7 +139,7 @@ const AssociateLiterature = () => {
                                         type="text"
                                         name="title"
                                         placeholder="Enter title"
-                                        value={title || ''}
+                                        value={title || ""}
                                         onChange={(e) => handleMetadataChange(e, index)}
                                     />
                                 </Form.Group>
@@ -135,7 +152,7 @@ const AssociateLiterature = () => {
                                         type="text"
                                         name="description"
                                         placeholder="Enter description"
-                                        value={description || ''}
+                                        value={description || ""}
                                         onChange={(e) => handleMetadataChange(e, index)}
                                     />
                                 </Form.Group>
@@ -143,21 +160,37 @@ const AssociateLiterature = () => {
                             <Col>
                                 <Form.Group controlId={`fileMediaType_${index}`}>
                                     <Form.Label>Media Type</Form.Label>
-                                    <Select placeholder="Select Media Type" options={mediaOptions} />
+                                    <Select placeholder="Select Media Type" options={mediaOptions}
+                                            onChange={(selected) => handleMediaTypeChange(selected, index)} />
                                 </Form.Group>
                             </Col>
-                            <Col xs="auto">
-                                <Select placeholder="Select ID" options={identifierOptions} className="m-3"/>
+                            <Col>
+                                <Form.Label>Identifier</Form.Label>
+                                <Select placeholder="Select ID" options={identifierOptions}
+                                        className="m-3" id="idSelector"
+                                        isDisabled={!selectedMediaType || false}
+                                        onChange={(e) => handleIdentifierTypeChange(e, index)} />
                             </Col>
-                            <Col xs="auto">
-                                <Button variant="info" size="sm" className="m-3">Generate ID</Button>
-                                <Button variant="danger" onClick={() => handleRemoveFile(index)} size="sm" className="m-3">X</Button>
+                                <Col>
+                                    <Form.Label>Identifier</Form.Label>
+                                <Button variant="info" size="m" className="m-3" onClick={() => generateDoi(index)}
+                                        disabled={!selectedIdentifierType || false}>
+                                   {selectedIdentifierType ? selectedIdentifierType.label : "Select an ID option"}
+                                </Button>
+
+                                </Col>
+                            <Col>
+                                <Form.Label>Identifier</Form.Label>
+                            <Form.Control value={doi} onChange={(e) => handleIdentifierTypeChange(e, index)}
+                                          readOnly/></Col>
+                            <Col>
+                                <Form.Label>Remove</Form.Label>
+                                <Button variant="danger" onClick={() => handleRemoveFile(index)} size="sm">X</Button>
                             </Col>
                         </Row>
                     </div>
                 ))}
             </Form>
-        </Container>
     );
 };
 
