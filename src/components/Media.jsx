@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Select from "react-select";
 
-const MediaUpload = () => {
+const Media = () => {
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: '', description: '', mediaType: '' });
 
@@ -177,4 +177,4 @@ const MediaUpload = () => {
     );
 };
 
-export default MediaUpload;
+export default Media;
