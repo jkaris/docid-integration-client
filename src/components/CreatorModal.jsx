@@ -77,7 +77,7 @@ const creatorOrganizationOptions = [
     }
 ]
 
-const AddOrgCreatorModal = ({show, handleClose, formData, setFormData, handleSave}) => {
+const AddCreatorModal = ({show, handleClose, formData, setFormData, handleSave}) => {
     const [selectedOption, setSelectedOption] = useState('person');
     const [selectedCreatorPersonOption, setSelectedCreatorPersonOption] = useState(null);
     const [selectedCreatorOrgOption, setSelectedCreatorOrgOption] = useState(null);
@@ -254,4 +254,4 @@ const AddOrgCreatorModal = ({show, handleClose, formData, setFormData, handleSav
         ;
 };
 
-export default AddOrgCreatorModal;
+export default AddCreatorModal;

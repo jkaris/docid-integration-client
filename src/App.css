@@ -1,6 +1,6 @@
 #root {
     margin: 0;
-    padding: 0 5px;
+    padding: 0 15px;
     place-items: center;
     height: 100vh;
     display: flex;
@@ -65,4 +65,23 @@
     width: 100%;
     padding: 15px;
 }
+
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8); /* Optional: adds a semi-transparent white background */
+}
+
+.logo {
+  max-width: 200px; /* Adjust the max-width as needed */
+}
+
+.spinner {
+  width: 3rem; /* Adjust the spinner size as needed */
+  height: 3rem; /* Adjust the spinner size as needed */
+}
+
 

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { Accordion } from 'react-bootstrap';
+import "./ReusableAccordion.css"
 
 const ReusableAccordion = ({items}) => {
     const [activeKey, setActiveKey] = useState('0');
@@ -9,7 +10,7 @@ const ReusableAccordion = ({items}) => {
     };
 
     return (
-        <Accordion defaultActiveKey={items.map((_, i)=>i<2?i:0)} onSelect={handleAccordionSelect} alwaysOpen>
+        <Accordion defaultActiveKey={items.map((_, i)=>i<2?i:0)} onSelect={handleAccordionSelect} alwaysOpen className="reusable-accordion">
             {items.map((item, index) => (
                 <Accordion.Item eventKey={index} key={index}>
                     <Accordion.Header>

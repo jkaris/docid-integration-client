@@ -1,11 +1,14 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {Button, Col, Form, Row} from "react-bootstrap";
-import ReusableAccordion from "../components/accordion/MyAccordion.jsx";
-import FileUpload from "../components/fileupload/FileUpload.jsx";
-import BasicInfo from "../components/basicinformation/BasicInfo.jsx";
-import AddOrgCreatorModal from "../components/organization/Organization.jsx";
+import ReusableAccordion from "../components/ReusableAccordion.jsx";
 import axios from "axios";
-import AddCreatorModal from "../components/modal/CreatorModal.jsx";
+import DocIdObject from "../components/DocIdObject.jsx";
+import Media from "../components/Media.jsx";
+import Funders from "../components/Funder.jsx";
+import Project from "../components/Project.jsx";
+import AssociateLiterature from "../components/AssociateLiterature.jsx";
+import CreatorOrganization from "../components/CreatorOrganization.jsx";
+import Organization from "../components/Organization.jsx";
 
 function AddPublication(props) {
     const fileUploadRef = useRef(null);
@@ -61,51 +64,54 @@ function AddPublication(props) {
     }
     const items = [
         {
-            title: 'Files',
-            content: 'File upload',
+            title: 'DOCiD',
+            content: 'Generate DOCiD',
             widgets: [
-                <FileUpload onUpload={() => handleFileUpload} ref={fileUploadRef} setFileId={setFileId}/>
+                <p>Please generate DOCiD for this record below</p>,
+                <DocIdObject/>
             ],
         },
         {
-            title: 'Organization',
-            content: <Button variant="primary" onClick={() => <AddOrgCreatorModal show={props.showModal}/>}>Add Organization</Button>,
+            title: 'Add Literature',
+            content: 'Literature',
             widgets: [
-                <AddOrgCreatorModal
-                    show={props.showModal}
-                    handleClose={props.handleCloseModal}
-                    formData={props.formData}
-                    setFormData={props.setFormData}
-                    handleSave={props.handleSaveModalFormData}
-                />
+                <p>Please add literature content below</p>,
+                <AssociateLiterature/>,
+            ],
+        },
+        {
+            title: 'Add Media',
+            content: 'Upload media',
+            widgets: [
+                <p>Please upload media files below</p>,
+                <Media/>,
+            ],
+        },
+        {
+            title: 'Add Creator / Organization',
+            content: <></>,
+            widgets: [
+                <h4>Add creators</h4>,
+                <CreatorOrganization />,
+                <h4>Add organizations</h4>,
+                <Organization/>,
+            ]
+        },
+        {
+            title: 'Funding',
+            content: 'Funders / Granters',
+            widgets: [
+                <p>Add funder /grantor</p>,
+                <Funders/>
             ]
         },
         {
             title: 'Project',
             content: 'Add Project',
-        },
-        {
-            title: 'Funding',
-            content: 'Add Funders',
-        },
-        {
-            title: 'Basic Information',
-            content: 'Digital Object Identifier',
             widgets: [
-                <BasicInfo selectedOption={selectedOption} setSelectedOption={setSelectedOption}
-                           selectedDate={selectedDate} setSelectedDate={setSelectedDate}
-                           doi={doi} setDOI={setDOI}
-                           resourceTypes={resourceTypes} setResourceTypes={setResourceTypes}
-                           selectedResourceType={selectedResourceType} setSelectedResourceType={setSelectedResourceType}
-                           title={title} setTitle={setTitle}
-                           description={description} setDescription={setDescription}
-                           showModal={showModal} setShowModal={setShowModal}
-                           formData={formData} setFormData={setFormData}
-                           error={error} setError={setError}
-                           placeholderValue={placeholderValue} setPlaceholderValue={setPlaceholderValue}
-                />
-            ],
-        }
+                <Project/>
+            ]
+        },
     ];
 
 

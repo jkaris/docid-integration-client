@@ -1,29 +1,22 @@
 # Use a Node.js base image
-FROM node:alpine AS build
+FROM node:20-slim AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and pnpm-lock.yaml to the working directory
-COPY package.json pnpm-lock.yaml ./
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
-# Install dependencies
-RUN npm install -g pnpm && pnpm install
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
 
-# Copy the rest of the application code to the working directory
-COPY . .
-
-# Build the React app
-RUN npm run build
-
-# Use a lightweight Nginx image to serve the static files
-FROM nginx:alpine
-
-# Copy the built React app from the previous stage to the Nginx server directory
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose port 80 to the outside world
-EXPOSE 80
-
-# Start Nginx server when the container starts
-CMD ["nginx", "-g", "daemon off;"]
+FROM base
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
+EXPOSE 8000
+CMD [ "pnpm", "start" ]
