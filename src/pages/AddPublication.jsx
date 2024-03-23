@@ -2,13 +2,13 @@ import React, {useRef, useState, useEffect} from 'react';
 import {Button, Col, Form, Row} from "react-bootstrap";
 import ReusableAccordion from "../components/ReusableAccordion.jsx";
 import axios from "axios";
-import DocIdObject from "../components/DocIdObject.jsx";
-import Media from "../components/Media.jsx";
-import Funders from "../components/Funder.jsx";
-import Project from "../components/Project.jsx";
-import AssociateLiterature from "../components/AssociateLiterature.jsx";
-import CreatorOrganization from "../components/CreatorOrganization.jsx";
-import Organization from "../components/Organization.jsx";
+import AddDocIdObject from "../components/AddDocIdObject.jsx";
+import AddDocument from "../components/AddDocument.jsx";
+import Funders from "../components/AddFunder.jsx";
+import AddProject from "../components/AddProject.jsx";
+import AddPublicationContent from "../components/AddPublicationContent.jsx";
+import AddCreator from "../components/AddCreator.jsx";
+import Organization from "../components/AddOrganization.jsx";
 
 function AddPublication(props) {
     const fileUploadRef = useRef(null);
@@ -68,48 +68,48 @@ function AddPublication(props) {
             content: 'Generate DOCiD',
             widgets: [
                 <p>Please generate DOCiD for this record below</p>,
-                <DocIdObject/>
+                <AddDocIdObject/>
             ],
         },
         {
-            title: 'Add Literature',
-            content: 'Literature',
+            title: 'Publications',
+            content: 'Add Publications',
             widgets: [
-                <p>Please add literature content below</p>,
-                <AssociateLiterature/>,
+                <p>Please add publication(s) below</p>,
+                <AddPublicationContent/>,
             ],
         },
         {
-            title: 'Add Media',
-            content: 'Upload media',
+            title: 'Documents',
+            content: 'Add Documents',
             widgets: [
-                <p>Please upload media files below</p>,
-                <Media/>,
+                <p>Please add document(s) below</p>,
+                <AddDocument/>,
             ],
         },
         {
-            title: 'Add Creator / Organization',
+            title: 'Creators & Organizations',
             content: <></>,
             widgets: [
                 <h4>Add creators</h4>,
-                <CreatorOrganization />,
+                <AddCreator />,
                 <h4>Add organizations</h4>,
                 <Organization/>,
             ]
         },
         {
-            title: 'Funding',
-            content: 'Funders / Granters',
+            title: 'Funders',
+            content: 'Add Funders',
             widgets: [
                 <p>Add funder /grantor</p>,
                 <Funders/>
             ]
         },
         {
-            title: 'Project',
-            content: 'Add Project',
+            title: 'Projects',
+            content: 'Add AddProject',
             widgets: [
-                <Project/>
+                <AddProject/>
             ]
         },
     ];

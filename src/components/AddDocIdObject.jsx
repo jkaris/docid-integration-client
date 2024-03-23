@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const DocIdObject = () => {
+const AddDocIdObject = () => {
     const [docId, setDocId] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -15,6 +15,37 @@ const DocIdObject = () => {
     const [docidTitle, setDocidTitle] = useState("");
     const [docidDescription, setDocidDescription] = useState("");
     const [selectedResourceType, setSelectedResourceType] = useState(null);
+
+    const resourceTypeOptions = [
+        {
+            value: "indigenous knowledge",
+            label: "Indigenous Knowledge"
+        },
+        {
+            value: "patent",
+            label: "Patent"
+        },
+        {
+            value: "cultural heritage",
+            label: "Cultural Heritage"
+        },
+        {
+            value: "project",
+            label: "Project"
+        },
+        {
+            value: "funder",
+            label: "Funder"
+        },
+        {
+            value: "article",
+            label: "Article"
+        },
+        {
+            value: "dataset",
+            label: "Dataset"
+        },
+    ]
 
     const generateDocId = async () => {
         try {
@@ -38,22 +69,9 @@ const DocIdObject = () => {
         setDocId(event.target.value);
     };
 
-    useEffect(() => {
-        const fetchResourceTypes = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/utils/object-types`);
-                setResourceTypes(response.data);
-            } catch (error) {
-                console.error("Error fetching resource types:", error);
-            }
-        };
-        fetchResourceTypes();
-    }, []);
-
 
     const handleResourceTypeChange = (selectedOption) => {
         const selectedIndex = resourceTypes.findIndex(type => type.id === selectedOption.value);
-        console.log("Selected Resource Type Index:", selectedIndex);
         setSelectedResourceType(selectedIndex);
     };
     const handleDocidTitleChange = (e) => {
@@ -114,12 +132,13 @@ const DocIdObject = () => {
                         <Select
                             className="mb-3"
                             onChange={handleResourceTypeChange}
-                            options={resourceTypes.map(type => ({
-                                value: type.id,
-                                label: type.name
+                            options={resourceTypeOptions.map(type => ({
+                                value: type.value,
+                                label: type.label
                             }))}
                             placeholder="Select resource type..."
                             required
+                            isClearable
                         />
                         <Form.Label><h5>Title</h5></Form.Label>
                         <Form.Control required type="text" placeholder="Add a title" value={docidTitle}
@@ -138,4 +157,4 @@ const DocIdObject = () => {
     );
 };
 
-export default DocIdObject;
+export default AddDocIdObject;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
-const CreatorOrganization = () => {
+const AddCreator = () => {
     const [rows, setRows] = useState([{ fullname: '', familyName: '', givenName: '', identifier: '', affiliation: '', role: '' }]);
 
     const handleInputChange = (value, fieldName, rowIndex) => {
@@ -84,4 +84,4 @@ const CreatorOrganization = () => {
     );
 };
 
-export default CreatorOrganization;
+export default AddCreator;

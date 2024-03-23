@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
-const Funder = () => {
+const AddFunder = () => {
     const [rows, setRows] = useState([{ type: '', name: '', id: '', activity: '' }]);
 
     const handleInputChange = (value, fieldName, rowIndex) => {
@@ -21,7 +21,7 @@ const Funder = () => {
                 <Row key={index} className="m-3">
                     <Col>
                         <Select
-                            options={[{ value: 'funder', label: 'Funder' }, { value: 'grantor', label: 'Grantor' }]}
+                            options={[{ value: 'funder', label: 'AddFunder' }, { value: 'grantor', label: 'Grantor' }]}
                             placeholder="Select Type"
                             onChange={(selectedOption) => handleInputChange(selectedOption, 'type', index)}
                         />
@@ -61,4 +61,4 @@ const Funder = () => {
     );
 };
 
-export default Funder;
+export default AddFunder;

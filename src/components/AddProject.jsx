@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
-const Project = ({ onAddProject }) => {
+const AddProject = ({ onAddProject }) => {
     const [rows, setRows] = useState([{ title: '', description: '' }]);
 
     const handleInputChange = (value, fieldName, rowIndex) => {
@@ -46,4 +46,4 @@ const Project = ({ onAddProject }) => {
     );
 };
 
-export default Project;
+export default AddProject;

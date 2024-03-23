@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Select from "react-select";
 
-const Media = () => {
+const AddDocument = () => {
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
     const [resourceType, setResourceType] = useState(null);
@@ -151,8 +151,8 @@ const Media = () => {
                         </Col>
                         <Col>
                             <Form.Group controlId={`fileMediaType_${index}`}>
-                                <Form.Label>Media Type</Form.Label>
-                                <Select placeholder="Select Media Type" options={mediaOptions}
+                                <Form.Label>AddDocument Type</Form.Label>
+                                <Select placeholder="Select AddDocument Type" options={mediaOptions}
                                         onChange={(selected) => handleMediaTypeChange(selected, index)} />
                             </Form.Group>
                         </Col>
@@ -186,4 +186,4 @@ const Media = () => {
     );
 };
 
-export default Media;
+export default AddDocument;

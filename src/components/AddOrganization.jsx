@@ -163,7 +163,7 @@ export default Creator;
 //     return (
 //         <Modal show={show} onHide={handleClose}>
 //             <ModalHeader>
-//                 <h2>Add CreatorOrganization</h2>
+//                 <h2>Add AddCreator</h2>
 //             </ModalHeader>
 //             <ModalBody>
 //                 <Form>
@@ -212,7 +212,7 @@ export default Creator;
 //                 </Form>
 //             </ModalBody>
 //             <ModalFooter>
-//                 <Button>Add CreatorOrganization</Button>
+//                 <Button>Add AddCreator</Button>
 //             </ModalFooter>
 //         </Modal>
 //     );
@@ -297,7 +297,7 @@ export default Creator;
 //     );
 // };
 //
-// function CreatorOrganization() {
+// function AddCreator() {
 //     const [showCreatorModal, setShowCreatorModal] = useState(false);
 //     const [showOrganizationModal, setShowOrganizationModal] = useState(false);
 //
@@ -321,7 +321,7 @@ export default Creator;
 //         <>
 //             <ButtonGroup>
 //                 <Button className="m-2" size="md" onClick={handleOpenCreatorModal}>
-//                     Add CreatorOrganization
+//                     Add AddCreator
 //                 </Button>
 //                 <Button className="m-2" size="md" onClick={handleOpenOrganizationModal}>
 //                     Add Organization
@@ -333,4 +333,4 @@ export default Creator;
 //     );
 // }
 //
-// export default CreatorOrganization;
+// export default AddCreator;
