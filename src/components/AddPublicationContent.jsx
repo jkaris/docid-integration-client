@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, FloatingLabel } from "react-bootstrap";
 import Select from "react-select";
 
-const AssociateLiterature = () => {
+const AddPublication = () => {
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
     const [resourceType, setResourceType] = useState(null);
@@ -40,25 +40,128 @@ const AssociateLiterature = () => {
         {
             value: "crossref",
             label: "CrossRef"
+        },
+        {
+            value: "orcid",
+            label: "ORCID"
+        },
+        {
+            value: "ark",
+            label: "ARK",
+            isDisabled: true,
+        },
+        {
+            value: "arxiv",
+            label: "arXiv",
+            isDisabled: true,
+        },
+        {
+            value: "bibcode",
+            label: "Bibcode",
+            isDisabled: true,
+        },
+        {
+            value: "crossref_funder_id",
+            label: "CrossRef AddFunder ID",
+            isDisabled: true,
+        },
+        {
+            value: "ean13",
+            label: "EAN13",
+            isDisabled: true,
+        },
+        {
+            value: "eissn",
+            label: "EISSN",
+            isDisabled: true,
+        },
+        {
+            value: "grid",
+            label: "GRID",
+            isDisabled: true,
+        },
+        {
+            value: "handle",
+            label: "Handle",
+            isDisabled: true,
+        },
+        {
+            value: "igsn",
+            label: "IGSN",
+            isDisabled: true,
+        },
+        {
+            value: "isbn",
+            label: "ISBN",
+            isDisabled: true,
+        },
+        {
+            value: "isni",
+            label: "ISNI",
+            isDisabled: true,
+        },
+        {
+            value: "issn",
+            label: "ISSN",
+            isDisabled: true,
+        },
+        {
+            value: "istc",
+            label: "ISTC",
+            isDisabled: true,
+        },
+        {
+            value: "lissn",
+            label: "LISSN",
+            isDisabled: true,
+        },
+        {
+            value: "lsid",
+            label: "LSID",
+            isDisabled: true,
+        },
+        {
+            value: "pmid",
+            label: "PMID",
+            isDisabled: true,
+        },
+        {
+            value: "purl",
+            label: "PURL",
+            isDisabled: true,
+        },
+        {
+            value: "upc",
+            label: "UPC",
+            isDisabled: true,
+        },
+        {
+            value: "url",
+            label: "URL",
+            isDisabled: true,
         }
     ];
 
     const mediaOptions = [
         {
-            value: "dataset",
-            label: "Dataset"
-        },
-        {
-            value: "conference proceeding",
-            label: "Conference Proceeding"
-        },
-        {
-            value: "article",
-            label: "Webinar"
-        },
-        {
             value: "article",
             label: "Article"
+        },
+        {
+            value: "book chapter",
+            label: "Book Chapter"
+        },
+        {
+            value: "chapter",
+            label: "Chapter"
+        },
+        {
+            value: "proceeding",
+            label: "Proceeding"
+        },
+        {
+            value: "monograph",
+            label: "Monograph"
         },
         {
             value: "preprint",
@@ -163,8 +266,8 @@ const AssociateLiterature = () => {
                             </Col>
                             <Col>
                                 <Form.Group controlId={`fileMediaType_${index}`}>
-                                    <Form.Label>Media Type</Form.Label>
-                                    <Select placeholder="Select Media Type" options={mediaOptions}
+                                    <Form.Label>Publication Type</Form.Label>
+                                    <Select placeholder="Select AddDocument Type" options={mediaOptions}
                                             onChange={(selected) => handleMediaTypeChange(selected, index)} />
                                 </Form.Group>
                             </Col>
@@ -198,4 +301,4 @@ const AssociateLiterature = () => {
     );
 };
 
-export default AssociateLiterature;
+export default AddPublication;
