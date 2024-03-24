@@ -14,17 +14,17 @@ const PublicationFormProvider = ({ children }) => {
     const ajv = new Ajv();
     const validate = ajv.compile(schema);
 
-    useEffect(() => {
-        console.log("&&&&&&&&&&&&&&&", ctxFiles)
-        // setFormData((prevFormData) => ({
-        //     ...prevFormData,
-        //     [key]: value
-        // }));
-    }, [ctxFiles]);
+    // useEffect(() => {
+    //     console.log("&&&&&&&&&&&&&&&", ctxFiles)
+    //     // setFormData((prevFormData) => ({
+    //     //     ...prevFormData,
+    //     //     [key]: value
+    //     // }));
+    // }, [ctxFiles]);
 
-    useEffect(() => {
-        console.log((frmData));
-    }, [frmData]);
+    // useEffect(() => {
+    //     console.log((frmData));
+    // }, [frmData]);
 
     const updateFormData = (key, value) => {
         setFormData((prevFormData) => ({
