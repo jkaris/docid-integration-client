@@ -5,7 +5,7 @@ import { PublicationControl } from "./addfile/PublicationControl.jsx";
 import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
 const AddPublicationContent = () => {
-    // const { frmData, updateFormData } = useContext(PublicationFormContext);
+    const { frmData, updateFormData } = useContext(PublicationFormContext);
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
     // const [resourceType, setResourceType] = useState(null);
@@ -177,6 +177,13 @@ const AddPublicationContent = () => {
         setFiles([...files, ...selectedFiles.map(file => ({ file, ...metadata }))]);
         // window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`
     };
+
+    useEffect(() => {
+        frmData.creators = [];
+        frmData.organizations = [];
+        frmData.projects = [];
+        frmData.funders = [];
+    }, []);
 
     // useEffect(() => {
     //     frmData.publications = files.map(f => ({ title: f.title, description: f.description, mediaType: f.mediaType }));

@@ -4,7 +4,7 @@ import Select from "react-select";
 import { PublicationFormContext } from "../context/PublicationFormContext.jsx";
 
 export const PublicationControl = (props) => {
-    const { frmData, updateFormData, validationErrors } = useContext(PublicationFormContext);
+    const { frmData, updateFormData } = useContext(PublicationFormContext);
     const { files, setFiles, idx, fileProps, docType } = props;
     const { file } = fileProps;
     const [resourceType, setResourceType] = useState(null);
@@ -22,7 +22,7 @@ export const PublicationControl = (props) => {
     }, [files]);
 
     useEffect(() => {
-        document.getElementById(`ident_${docType}_${idx}`).value = doi
+        document.getElementById(`ident_${docType}_${idx}`).value = doi;
     }, [doi]);
 
     const isPublication = docType === "publications";
@@ -347,7 +347,8 @@ export const PublicationControl = (props) => {
                 </Col>
                 <Col>
                     <Form.Label>Identifier</Form.Label>
-                    <Form.Control id={`ident_${docType}_${idx}`} type="text" onChange={(e) => handleIdentifierTypeChange(e)}
+                    <Form.Control id={`ident_${docType}_${idx}`} type="text"
+                                  onChange={(e) => handleIdentifierTypeChange(e)}
                                   readOnly={isPublication} /></Col>
                 <Col>
                     <Form.Label>Remove</Form.Label>
