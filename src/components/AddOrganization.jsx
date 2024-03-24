@@ -33,7 +33,7 @@ const Organization = () => {
     return (
         <div>
             {rows.map((row, index) => (
-                <OrgRow row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
+                <OrgRow key={index} row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
             ))}
         </div>
     );

@@ -69,6 +69,7 @@ const AddDocIdObject = () => {
         setDocId("");
     };
     const handleInputChange = (event) => {
+        console.log("mtu ameType")
         setDocId(event.target.value);
         updateFormData("doc_id", event.target.value)
     };
@@ -114,14 +115,15 @@ const AddDocIdObject = () => {
                             Don't have DOCID
                         </Form.Label>
                         <Form.Control
+                            id="docid_input"
                             required
                             type="text"
                             className="form-control"
                             placeholder="Generated DOCID"
                             value={docId}
-                            onChange={handleInputChange}
+                            // onChange={alreadyHasDocId && handleInputChange}
                             readOnly={!alreadyHasDocId}
-                            onKeyUp={(e) => setDocId(e.target.value)}
+                            // onKeyUp={(e) => setDocId(e.target.value)}
                         />
                         <Button
                             className="btn btn-primary"

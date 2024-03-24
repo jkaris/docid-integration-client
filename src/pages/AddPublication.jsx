@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import ReusableAccordion from "../components/ReusableAccordion.jsx";
 import axios from "axios";
@@ -9,65 +9,66 @@ import AddProject from "../components/AddProject.jsx";
 import AddPublicationContent from "../components/AddPublicationContent.jsx";
 import AddCreator from "../components/AddCreator.jsx";
 import Organization from "../components/AddOrganization.jsx";
-import { PublicationFormProvider } from "../components/context/PublicationFormContext.jsx";
+import { PublicationFormContext } from "../components/context/PublicationFormContext.jsx";
 
 function AddPublication(props) {
-    const fileUploadRef = useRef(null);
-    const [selectedOption, setSelectedOption] = useState('no');
-    const [selectedDate, setSelectedDate] = useState('');
-    const [doi, setDOI] = useState('');
-    const [placeholderValue, setPlaceholderValue] = useState('');
-    const [error, setError] = useState('');
-    const [resourceTypes, setResourceTypes] = useState([]);
-    const [selectedResourceType, setSelectedResourceType] = useState(null);
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({
-        personName: '',
-        familyName: '',
-        givenName: '',
-        identifiers: '',
-        affiliations: '',
-        roles: '',
-        organization: '',
-    });
-    const [fileId, setFileId] = useState(null);
-    useEffect(() => {
-        if (fileId !== null || fileId !== undefined) {
-            const allFormData = {
-                doi,
-                selectedResourceType,
-                title,
-                description,
-                placeholderValue,
-                selectedDate,
-                fileId,
-                ...formData
-            };
-            const submitData = async () => {
-                const _response = await axios.post('http://localhost:5000/save/basic-info', allFormData);
-                window.location.href = "/list"
-            }
+    const { handleFormSubmit } = useContext(PublicationFormContext);
+    // const fileUploadRef = useRef(null);
+    // const [selectedOption, setSelectedOption] = useState('no');
+    // const [selectedDate, setSelectedDate] = useState('');
+    // const [doi, setDOI] = useState('');
+    // const [placeholderValue, setPlaceholderValue] = useState('');
+    // const [error, setError] = useState('');
+    // const [resourceTypes, setResourceTypes] = useState([]);
+    // const [selectedResourceType, setSelectedResourceType] = useState(null);
+    // const [title, setTitle] = useState('');
+    // const [description, setDescription] = useState('');
+    // const [showModal, setShowModal] = useState(false);
+    // const [formData, setFormData] = useState({
+    //     personName: '',
+    //     familyName: '',
+    //     givenName: '',
+    //     identifiers: '',
+    //     affiliations: '',
+    //     roles: '',
+    //     organization: '',
+    // });
+    // const [fileId, setFileId] = useState(null);
+    // useEffect(() => {
+    //     if (fileId !== null || fileId !== undefined) {
+    //         const allFormData = {
+    //             doi,
+    //             selectedResourceType,
+    //             title,
+    //             description,
+    //             placeholderValue,
+    //             selectedDate,
+    //             fileId,
+    //             ...formData
+    //         };
+    //         const submitData = async () => {
+    //             const _response = await axios.post('http://localhost:5000/save/basic-info', allFormData);
+    //             window.location.href = "/list"
+    //         }
+    //
+    //         // submitData()
+    //
+    //     }
+    // }, [fileId]);
 
-            // submitData()
+    // const handleCtxChange = (e) => {
+    //     const { nm, value } = e.target;
+    //     updateFormData(nm, value);
+    // };
 
-        }
-    }, [fileId]);
-
-    const handleCtxChange = (e) => {
-        const { nm, value } = e.target;
-        updateFormData(nm, value);
-    };
-
-    const handleFileUpload = (file) => {
-        fileUploadRef.current.handleUpload();
-        console.log("Uploaded file:", file);
-    }
-    const handleBasicInfoData = (formData) => {
-        basicInfoRef.current.handleSubmit();
-        console.log(formData);
-    }
+    // const handleFileUpload = (file) => {
+    //     fileUploadRef.current.handleUpload();
+    //     console.log("Uploaded file:", file);
+    // }
+    // const handleBasicInfoData = (formData) => {
+    //     basicInfoRef.current.handleSubmit();
+    //     console.log(formData);
+    // }
     const items = [
         {
             title: 'DOCiD',
@@ -121,25 +122,24 @@ function AddPublication(props) {
     ];
 
 
-    const [validated, setValidated] = useState(false);
+    // const [validated, setValidated] = useState(false);
 
-    const handleSubmit = async (event) => {
-        const form = event.currentTarget;
-
-        event.preventDefault();
-        if (form.checkValidity() === false) {
-            event.stopPropagation();
-            alert("Fill in all the highlighted required fields")
-        } else {
-            fileUploadRef.current.handleUpload();
-        }
-
-        setValidated(true);
-    };
+    // const handleSubmit = async (event) => {
+    //     const form = event.currentTarget;
+    //
+    //     event.preventDefault();
+    //     if (form.checkValidity() === false) {
+    //         event.stopPropagation();
+    //         alert("Fill in all the highlighted required fields")
+    //     } else {
+    //         fileUploadRef.current.handleUpload();
+    //     }
+    //
+    //     setValidated(true);
+    // };
     return (
         <>
-            <PublicationFormProvider>
-            <Form noValidate validated={validated} onSubmit={handleSubmit} className="accordion-form">
+            <Form noValidate onSubmit={handleFormSubmit} className="accordion-form">
                 <Row>
                     <Col xs={12} lg={12} md={12}>
                         <ReusableAccordion items={items}/>
@@ -147,7 +147,6 @@ function AddPublication(props) {
                 </Row>
                 <Button variant="outline-success" type="submit" size="lg">Publish</Button>
             </Form>
-            </PublicationFormProvider>
         </>
     );
 }

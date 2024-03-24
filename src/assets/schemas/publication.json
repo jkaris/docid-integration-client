@@ -25,7 +25,7 @@
                         "required": ["path", "extension"]
                     }
                 },
-                "required": ["title", "description", "publication_type", "identifier", "identifier_value", "file"]
+                "required": ["title", "description", "type", "identifier", "identifier_value"]
             }
         },
         "documents": {
@@ -47,7 +47,7 @@
                         "required": ["path", "extension"]
                     }
                 },
-                "required": ["title", "description", "document_type", "identifier", "identifier_value", "file"]
+                "required": ["title", "description", "type", "identifier", "identifier_value"]
             }
         },
         "creators": {

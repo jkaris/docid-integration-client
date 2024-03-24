@@ -5,7 +5,7 @@ import { PublicationControl } from "./addfile/PublicationControl.jsx";
 import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
 const AddPublicationContent = () => {
-    const { frmData, updateFormData } = useContext(PublicationFormContext);
+    const { frmData, ctxFiles, setCtxFiles } = useContext(PublicationFormContext);
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
     // const [resourceType, setResourceType] = useState(null);
@@ -174,9 +174,16 @@ const AddPublicationContent = () => {
     //
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
-        setFiles([...files, ...selectedFiles.map(file => ({ file, ...metadata }))]);
+        // setFiles([...files, ...selectedFiles.map(file => ({ file, ...metadata }))]);
+        setFiles([...files, ...selectedFiles]);
+        // console.log("files zenye ziko", files)
         // window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`
     };
+    useEffect(() => {
+        const fl = files.map(data => ({file: data.file}))
+        setCtxFiles(prevFiles=>({...prevFiles, ["publications"]: fl}))
+    }, [files]);
+
 
     useEffect(() => {
         frmData.creators = [];
@@ -220,20 +227,20 @@ const AddPublicationContent = () => {
     //     }
     // };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        files.forEach(({ file, ...metadata }) => {
-            formData.append("files", file);
-            Object.entries(metadata).forEach(([key, value]) => {
-                formData.append(`${file.name}_${key}`, value);
-            });
-        });
-        console.log("FormData:", formData);
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     files.forEach(({ file, ...metadata }) => {
+    //         formData.append("files", file);
+    //         Object.entries(metadata).forEach(([key, value]) => {
+    //             formData.append(`${file.name}_${key}`, value);
+    //         });
+    //     });
+    //     console.log("FormData:", formData);
+    // };
 
     return (
-        <Form onSubmit={handleSubmit}>
+        <>
             <Form.Group>
                 <Form.Label>Upload Files</Form.Label>
                 <Form.Control id="selectPubDocs" type="file" multiple onChange={handleFileChange} />
@@ -242,7 +249,7 @@ const AddPublicationContent = () => {
                 <PublicationControl key={index} files={files} setFiles={setFiles} fileProps={fileProps} idx={index}
                                     docType={"publications"} />
             ))}
-        </Form>
+        </>
     );
 };
 

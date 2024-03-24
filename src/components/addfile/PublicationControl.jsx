@@ -7,13 +7,13 @@ export const PublicationControl = (props) => {
     const { frmData, updateFormData } = useContext(PublicationFormContext);
     const { files, setFiles, idx, fileProps, docType } = props;
     const { file } = fileProps;
-    const [resourceType, setResourceType] = useState(null);
+    // const [resourceType, setResourceType] = useState(null);
     const [selectedMediaType, setSelectedMediaType] = useState(null);
     const [selectedIdentifierType, setSelectedIdentifierType] = useState(null);
     const [doi, setDoi] = useState("");
     const [raidDoi, setRaidDoi] = useState("");
-    const [dataciteDoi, setdataciteDoi] = useState("");
-    const [crossRefDoi, setcrossRefDoi] = useState("");
+    // const [dataciteDoi, setdataciteDoi] = useState("");
+    // const [crossRefDoi, setcrossRefDoi] = useState("");
     const [apiUrl, setApiUrl] = useState("");
 
     useEffect(() => {
@@ -226,7 +226,8 @@ export const PublicationControl = (props) => {
     const handleRemoveFile = (index) => {
         const updatedFiles = files.filter((_, i) => i !== index);
         setFiles(updatedFiles);
-        window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`;
+        // setCtxFiles(updatedFiles)
+        // window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`;
     };
 
     const handleMediaTypeChange = (selectedOption) => {
@@ -235,6 +236,17 @@ export const PublicationControl = (props) => {
         uPubs[idx].type = selectedOption.value;
         updateFormData(`${docType}`, uPubs);
     };
+
+    const handleIdentifierChange = (selectedIdentifier) => {
+
+            setSelectedIdentifierType(selectedIdentifier);
+            setApiUrl(selectedIdentifier.url);
+
+            const uPubs = [...frmData[docType]];
+            uPubs[idx].identifier = selectedIdentifier.value;
+            updateFormData(`${docType}`, uPubs);
+
+        };
 
     const handleIdentifierTypeChange = (selectedIdentifierType) => {
         if (isPublication) {
@@ -246,9 +258,10 @@ export const PublicationControl = (props) => {
             updateFormData(`${docType}`, uPubs);
         } else {
             const uPubs = [...frmData[docType]];
-            uPubs[idx].identifier_value = selectedIdentifierType.target.value;
-            updateFormData(`${docType}`, uPubs);
-            // setDoi(selectedIdentifierType.target.value)
+            if(selectedIdentifierType?.target) {
+                uPubs[idx].identifier_value = selectedIdentifierType.target.value;
+                updateFormData(`${docType}`, uPubs);
+            }
         }
     };
 
@@ -261,21 +274,21 @@ export const PublicationControl = (props) => {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        files.forEach(({ file, ...metadata }) => {
-            formData.append("files", file);
-            Object.entries(metadata).forEach(([key, value]) => {
-                formData.append(`${file.name}_${key}`, value);
-            });
-        });
-        console.log("FormData:", formData);
-    };
-    const handleCtxChange = (e) => {
-        const { nm, value } = e.target;
-        updateFormData(nm, value);
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     files.forEach(({ file, ...metadata }) => {
+    //         formData.append("files", file);
+    //         Object.entries(metadata).forEach(([key, value]) => {
+    //             formData.append(`${file.name}_${key}`, value);
+    //         });
+    //     });
+    //     console.log("FormData:", formData);
+    // };
+    // const handleCtxChange = (e) => {
+    //     const { nm, value } = e.target;
+    //     updateFormData(nm, value);
+    // };
 
     return (
         <div>
@@ -285,7 +298,7 @@ export const PublicationControl = (props) => {
                         <Form.Label>File Name</Form.Label>
                         <Form.Control
                             type="text"
-                            value={file.name}
+                            value={"sadsadsa"}
                             readOnly
                         />
                     </Form.Group>
@@ -335,7 +348,7 @@ export const PublicationControl = (props) => {
                             className="m-3"
                             isDisabled={!selectedMediaType || false}
                             name={`${docType}[${idx}].type`}
-                            onChange={(e) => handleIdentifierTypeChange(e)} />
+                            onChange={(e) => handleIdentifierChange(e)} />
                 </Col>
                 <Col hidden={!isPublication}>
                     <Form.Label>Identifier</Form.Label>

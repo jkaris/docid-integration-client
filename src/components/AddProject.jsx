@@ -19,7 +19,7 @@ const AddProject = ({ onAddProject }) => {
     return (
         <div>
             {rows.map((row, index) => (
-                <ProjectRow  row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
+                <ProjectRow key={index} row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
             ))}
         </div>
     );

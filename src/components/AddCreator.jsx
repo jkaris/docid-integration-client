@@ -27,7 +27,7 @@ const AddCreator = () => {
     return (
         <div>
             {rows.map((row, index) => (
-                <CreatorRow row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
+                <CreatorRow key={index} row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
             ))}
         </div>
     );

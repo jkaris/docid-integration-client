@@ -19,7 +19,7 @@ const AddFunder = () => {
     return (
         <div>
             {rows.map((row, index) => (
-                <FunderRow  row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
+                <FunderRow key={index} row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
             ))}
         </div>
     );

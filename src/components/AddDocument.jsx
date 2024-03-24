@@ -5,7 +5,7 @@ import { PublicationControl } from "./addfile/PublicationControl.jsx";
 import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
 const AddDocument = () => {
-    // const { frmData, updateFormData } = useContext(PublicationFormContext);
+    const { setCtxFiles } = useContext(PublicationFormContext);
     // fileProps { file, title, description, mediaType }
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
@@ -62,8 +62,15 @@ const AddDocument = () => {
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
-        setFiles([...files, ...selectedFiles.map(file => ({ file, ...metadata }))]);
+        // setFiles([...files, ...selectedFiles.map(file => ({ file, ...metadata }))]);
+        setFiles([...files, ...selectedFiles]);
     };
+
+    useEffect(() => {
+        const fl = files.map(data => ({file: data.file}))
+        setCtxFiles(prevFiles=>({...prevFiles, ["documents"]: fl}))
+    }, [files]);
+
 
     const handleMetadataChange = (e, index) => {
         const { name, value } = e.target;
