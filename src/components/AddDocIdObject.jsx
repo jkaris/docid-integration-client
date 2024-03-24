@@ -58,7 +58,7 @@ const AddDocIdObject = () => {
             setDocId(response.data.docid_doi);
             updateFormData("doc_id", response.data.docid_doi)
         } catch (error) {
-            setError("Error generating DOCID. Please try again.");
+            setError("Error generating DOCiD. Please try again. Status: " + error.response.status);
         } finally {
             setLoading(false);
         }
