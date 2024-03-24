@@ -1,18 +1,53 @@
-import React, { useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import Select from 'react-select';
+import React, { useContext, useState } from "react";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import Select from "react-select";
+import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
 const AddCreator = () => {
-    const [rows, setRows] = useState([{ fullname: '', familyName: '', givenName: '', identifier: '', affiliation: '', role: '' }]);
+    const [rows, setRows] = useState([{
+        full_name: "",
+        family_name: "",
+        given_name: "",
+        identifier: "",
+        affiliation: "",
+        role: ""
+    }]);
 
+    const handleAddRow = () => {
+        setRows([...rows, {
+            full_name: "",
+            family_name: "",
+            given_name: "",
+            identifier: "",
+            affiliation: "",
+            role: ""
+        }]);
+    };
+
+    return (
+        <div>
+            {rows.map((row, index) => (
+                <CreatorRow key={index} row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
+            ))}
+        </div>
+    );
+};
+
+const CreatorRow = (props) => {
+    const { row, index, rows, setRows, handleAddRow } = props;
+    const { frmData, updateFormData } = useContext(PublicationFormContext);
     const handleInputChange = (value, fieldName, rowIndex) => {
         const updatedRows = [...rows];
         updatedRows[rowIndex][fieldName] = value;
         setRows(updatedRows);
-    };
 
-    const handleAddRow = () => {
-        setRows([...rows, { fullname: '', familyName: '', givenName: '', identifier: '', affiliation: '', role: '' }]);
+        const crt = [...frmData.creators];
+        crt[index] = rows[index];
+        if (fieldName === "role") {
+            // console.log(crt[index])
+            crt[index].role = crt[index].role.value;
+        }
+        updateFormData("creators", crt);
     };
 
     const roleOptions = [
@@ -20,67 +55,63 @@ const AddCreator = () => {
             value: "associate professor",
             label: "Associate Professor"
         }
-    ]
+    ];
 
     return (
-        <div>
-            {rows.map((row, index) => (
-                <Row key={index} className="m-3">
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Full Name"
-                            value={row.fullname}
-                            onChange={(e) => handleInputChange(e.target.value, 'fullname', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Family Name"
-                            value={row.familyName}
-                            onChange={(e) => handleInputChange(e.target.value, 'familyName', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Given Name"
-                            value={row.givenName}
-                            onChange={(e) => handleInputChange(e.target.value, 'givenName', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Identifier"
-                            value={row.identifier}
-                            onChange={(e) => handleInputChange(e.target.value, 'identifier', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Affiliation"
-                            value={row.affiliation}
-                            onChange={(e) => handleInputChange(e.target.value, 'affiliation', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Select
-                            options={roleOptions}
-                            placeholder="Select Role"
-                            onChange={(selectedOption) => handleInputChange(selectedOption, 'role', index)}
-                        />
-                    </Col>
-                    <Col>
-                        {index === rows.length - 1 && (
-                            <Button variant="success" onClick={handleAddRow}>+</Button>
-                        )}
-                    </Col>
-                </Row>
-            ))}
-        </div>
+        <Row className="m-3">
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Full Name"
+                    value={row.full_name}
+                    onChange={(e) => handleInputChange(e.target.value, "full_name", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Family Name"
+                    value={row.family_name}
+                    onChange={(e) => handleInputChange(e.target.value, "family_name", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Given Name"
+                    value={row.given_name}
+                    onChange={(e) => handleInputChange(e.target.value, "given_name", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Identifier"
+                    value={row.identifier}
+                    onChange={(e) => handleInputChange(e.target.value, "identifier", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Affiliation"
+                    value={row.affiliation}
+                    onChange={(e) => handleInputChange(e.target.value, "affiliation", index)}
+                />
+            </Col>
+            <Col>
+                <Select
+                    options={roleOptions}
+                    placeholder="Select Role"
+                    onChange={(selectedOption) => handleInputChange(selectedOption, "role", index)}
+                />
+            </Col>
+            <Col>
+                {index === rows.length - 1 && (
+                    <Button variant="success" onClick={handleAddRow}>+</Button>
+                )}
+            </Col>
+        </Row>
     );
 };
 

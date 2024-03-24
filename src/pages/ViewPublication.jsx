@@ -8,7 +8,7 @@ function ViewPublication(props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/utils/get-publication/${id}`);
+                const response = await axios.get(`http://localhost:5099/utils/get-publication/${id}`);
                 setPublication(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -21,9 +21,10 @@ function ViewPublication(props) {
         <div>
            {publication ? (
                 <div>
-                    <h2>Title: {publication.title}</h2>
-                    <p>DOI: {publication.doi}</p>
-                    <p>File Name: {publication.file_name}</p>
+                    <h2>Title: {publication.data?.title}</h2>
+                    <p>DOI: {publication.data?.doc_id}</p>
+                    <p>File Name: {publication.data?.file?.length}</p>
+                    <code className={"w-75 m-4"} >{JSON.stringify(publication.data)}</code>
                 </div>
             ) : (
                 <p>Loading...</p>

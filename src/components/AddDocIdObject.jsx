@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import Container from "react-bootstrap/Container";
+import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const AddDocIdObject = () => {
+    const {frmData, updateFormData} = useContext(PublicationFormContext)
     const [docId, setDocId] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -54,6 +56,7 @@ const AddDocIdObject = () => {
             const response = await axios.get(`${API_URL}/doi/get-docid-doi`);
             console.log(response);
             setDocId(response.data.docid_doi);
+            updateFormData("doc_id", response.data.docid_doi)
         } catch (error) {
             setError("Error generating DOCID. Please try again.");
         } finally {
@@ -66,23 +69,27 @@ const AddDocIdObject = () => {
         setDocId("");
     };
     const handleInputChange = (event) => {
+        console.log("mtu ameType")
         setDocId(event.target.value);
+        updateFormData("doc_id", event.target.value)
     };
 
 
     const handleResourceTypeChange = (selectedOption) => {
         const selectedIndex = resourceTypes.findIndex(type => type.id === selectedOption.value);
         setSelectedResourceType(selectedIndex);
+        updateFormData("resource_type", selectedOption.value)
     };
     const handleDocidTitleChange = (e) => {
         setDocidTitle(e.target.value);
+        updateFormData("title", event.target.value)
     };
 
 
     const handleDocidDescriptionChange = (e) => {
         setDocidDescription(e.target.value);
+        updateFormData("description", e.target.value)
     };
-
 
     return (
         <Container>
@@ -108,14 +115,15 @@ const AddDocIdObject = () => {
                             Don't have DOCID
                         </Form.Label>
                         <Form.Control
+                            id="docid_input"
                             required
                             type="text"
                             className="form-control"
                             placeholder="Generated DOCID"
                             value={docId}
-                            onChange={handleInputChange}
+                            // onChange={alreadyHasDocId && handleInputChange}
                             readOnly={!alreadyHasDocId}
-                            onKeyUp={(e) => setDocId(e.target.value)}
+                            // onKeyUp={(e) => setDocId(e.target.value)}
                         />
                         <Button
                             className="btn btn-primary"

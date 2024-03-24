@@ -9,6 +9,7 @@ import { Image, Spinner } from "react-bootstrap";
 import "./App.css";
 import { useEffect, useState } from "react";
 import logo from "./assets/docid_logo_loading.png";
+import { PublicationFormProvider } from "./components/context/PublicationFormContext.jsx";
 
 
 const routes = [
@@ -55,12 +56,14 @@ function App() {
             ) : (
                 <>
                 <MainHead routes={routes}/>
+                    <PublicationFormProvider>
                 <Routes>
                 {routes.map((route, index) => (
                     <Route key={index} path={route.path} element={<route.element/>}/>
                 ))}
                 <Route path={"/view/:id"} element={<ViewPublication/>}/>
                 </Routes>
+                    </PublicationFormProvider>
                 <Footer routes={routes}/>
                 </>
                 )}
