@@ -3,7 +3,7 @@
 Interactive app with the aim of creating publications and assigning DOCID object, publishing and management of records. This client application has been developed using React, and integrates with the link:https://github.com/jkaris/docid-integration-backend[DOCID backend app].
 
 
-== Project overview
+== AddProject overview
 
 The DOCID client is a simplified tool for visualizing records, metadata and facilitating user management. Researchers and professionals, such as librarians etc. can view published records, create and edit records.
 
@@ -51,7 +51,7 @@ The general folder structure for the project can be seen below:
 dependencies
 ├── pnpm-lock.yaml       # Indicates break down/ resolving all node package versions and their internal third-party via pnpm
 dependencies
-├── README.adoc          # Project's readme
+├── README.adoc          # AddProject's readme
 ├── vite.config.js       # Contains Vite configuration
 
 ----
