@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import Select from 'react-select';
+import React, { useContext, useState } from "react";
+import { Form, Row, Col, Button } from "react-bootstrap";
+import Select from "react-select";
+import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
-const Creator = () => {
-    const [rows, setRows] = useState([{ fullname: '', familyName: '', givenName: '', identifier: '', affiliation: '', role: '' }]);
+const Organization = () => {
+    const [rows, setRows] = useState([{
+        full_name: "",
+        family_name: "",
+        given_name: "",
+        identifier: "",
+        affiliation: "",
+        role: ""
+    }]);
 
     const handleInputChange = (value, fieldName, rowIndex) => {
         const updatedRows = [...rows];
@@ -12,79 +20,108 @@ const Creator = () => {
     };
 
     const handleAddRow = () => {
-        setRows([...rows, { fullname: '', familyName: '', givenName: '', identifier: '', affiliation: '', role: '' }]);
+        setRows([...rows, {
+            full_name: "",
+            family_name: "",
+            given_name: "",
+            identifier: "",
+            affiliation: "",
+            role: ""
+        }]);
     };
+
+    return (
+        <div>
+            {rows.map((row, index) => (
+                <OrgRow row={row} index={index} rows={rows} setRows={setRows} handleAddRow={handleAddRow} />
+            ))}
+        </div>
+    );
+};
+
+const OrgRow = (props) => {
+    const { row, index, rows, setRows, handleAddRow } = props;
+    const { frmData, updateFormData } = useContext(PublicationFormContext);
 
     const roleOptions = [
         {
             value: "associate professor",
             label: "Associate Professor"
         }
-    ]
+    ];
+    const handleInputChange = (value, fieldName, rowIndex) => {
+        const updatedRows = [...rows];
+        updatedRows[rowIndex][fieldName] = value;
+        setRows(updatedRows);
+
+        const org = [...frmData.organizations];
+        org[index] = rows[index];
+        if (fieldName === "role") {
+            org[index].role = org[index].role.value;
+        }
+        updateFormData("organizations", org);
+    };
 
     return (
-        <div>
-            {rows.map((row, index) => (
-                <Row key={index} className="m-3">
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Full Name"
-                            value={row.fullname}
-                            onChange={(e) => handleInputChange(e.target.value, 'fullname', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Family Name"
-                            value={row.familyName}
-                            onChange={(e) => handleInputChange(e.target.value, 'familyName', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Given Name"
-                            value={row.givenName}
-                            onChange={(e) => handleInputChange(e.target.value, 'givenName', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Identifier"
-                            value={row.identifier}
-                            onChange={(e) => handleInputChange(e.target.value, 'identifier', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter Affiliation"
-                            value={row.affiliation}
-                            onChange={(e) => handleInputChange(e.target.value, 'affiliation', index)}
-                        />
-                    </Col>
-                    <Col>
-                        <Select
-                            options={roleOptions}
-                            placeholder="Select Role"
-                            onChange={(selectedOption) => handleInputChange(selectedOption, 'role', index)}
-                        />
-                    </Col>
-                    <Col>
-                        {index === rows.length - 1 && (
-                            <Button variant="success" onClick={handleAddRow}>+</Button>
-                        )}
-                    </Col>
-                </Row>
-            ))}
-        </div>
+
+        <Row key={index} className="m-3">
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Full Name"
+                    value={row.full_name}
+                    onChange={(e) => handleInputChange(e.target.value, "full_name", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Family Name"
+                    value={row.family_name}
+                    onChange={(e) => handleInputChange(e.target.value, "family_name", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Given Name"
+                    value={row.given_name}
+                    onChange={(e) => handleInputChange(e.target.value, "given_name", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Identifier"
+                    value={row.identifier}
+                    onChange={(e) => handleInputChange(e.target.value, "identifier", index)}
+                />
+            </Col>
+            <Col>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Affiliation"
+                    value={row.affiliation}
+                    onChange={(e) => handleInputChange(e.target.value, "affiliation", index)}
+                />
+            </Col>
+            <Col>
+                <Select
+                    options={roleOptions}
+                    placeholder="Select Role"
+                    onChange={(selectedOption) => handleInputChange(selectedOption, "role", index)}
+                />
+            </Col>
+            <Col>
+                {index === rows.length - 1 && (
+                    <Button variant="success" onClick={handleAddRow}>+</Button>
+                )}
+            </Col>
+        </Row>
     );
 };
 
-export default Creator;
+export default Organization;
 
 // import React, {useState} from 'react';
 // import {
@@ -107,8 +144,8 @@ export default Creator;
 //         {
 //             value: 'Obi Ngozi',
 //             label: 'Obi Ngozi',
-//             familyName: 'Ngozi',
-//             givenName: 'Obi',
+//             family_name: 'Ngozi',
+//             given_name: 'Obi',
 //             roles: 'Researcher',
 //             identifiers: 'ISSN, DOI',
 //             affiliations: 'UNN ARIN AfriPub',
@@ -116,8 +153,8 @@ export default Creator;
 //         {
 //             value: 'Kwame Mensah',
 //             label: 'Kwame Mensah',
-//             familyName: 'Mensah',
-//             givenName: 'Kwame',
+//             family_name: 'Mensah',
+//             given_name: 'Kwame',
 //             roles: 'Senior Lecturer',
 //             identifiers: 'ISBN, SSRN',
 //             affiliations: 'UG, TReND, AccraEd'
@@ -125,8 +162,8 @@ export default Creator;
 //         {
 //             value: 'Camara Fatou',
 //             label: 'Camara Fatou',
-//             familyName: 'Fatou',
-//             givenName: 'Camara',
+//             family_name: 'Fatou',
+//             given_name: 'Camara',
 //             roles: 'Scientist',
 //             identifiers: 'ISNI, Scopus',
 //             affiliations: 'UGPT, AIMS Senegal, KairabaLabs'
@@ -134,8 +171,8 @@ export default Creator;
 //         {
 //             value: 'Mkalimani Fulani',
 //             label: 'Mkalimani Fulani',
-//             familyName: 'Fulani',
-//             givenName: 'Mkalimani',
+//             family_name: 'Fulani',
+//             given_name: 'Mkalimani',
 //             roles: 'Associate Professor',
 //             identifiers: 'ResearchGate, PubMed',
 //             affiliations: ' UNN, AFRIGEN, NGEDU'
@@ -143,8 +180,8 @@ export default Creator;
 //         {
 //             value: 'Abdul Mubarak',
 //             label: 'Abdul Mubarak',
-//             familyName: 'Mubarak',
-//             givenName: 'Abdul',
+//             family_name: 'Mubarak',
+//             given_name: 'Abdul',
 //             roles: 'Coordinator',
 //             identifiers: ' OpenID, ResearcherID',
 //             affiliations: '  UoN, TCC Africa, DocID'
@@ -178,15 +215,15 @@ export default Creator;
 //                                 <Col>
 //                                     <Form.Label>Family name</Form.Label>
 //                                     <Form.Control type="text" placeholder="Family name"
-//                                                   value={selectedCreatorPersonOption ? selectedCreatorPersonOption.familyName : ''}
-//                                                   onChange={(e) => handlePersonFieldChange('familyName', e)}
+//                                                   value={selectedCreatorPersonOption ? selectedCreatorPersonOption.family_name : ''}
+//                                                   onChange={(e) => handlePersonFieldChange('family_name', e)}
 //                                                   className="m-1"></Form.Control>
 //                                 </Col>
 //                                 <Col>
 //                                     <Form.Label>Given names</Form.Label>
 //                                     <Form.Control type="text" placeholder="Given names"
-//                                                   value={selectedCreatorPersonOption ? selectedCreatorPersonOption.givenName : ''}
-//                                                   onChange={(e) => handlePersonFieldChange('givenName', e)}
+//                                                   value={selectedCreatorPersonOption ? selectedCreatorPersonOption.given_name : ''}
+//                                                   onChange={(e) => handlePersonFieldChange('given_name', e)}
 //                                                   className="m-1"></Form.Control>
 //                                 </Col>
 //                             </Row>
