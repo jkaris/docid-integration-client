@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import ReusableAccordion from "../components/ReusableAccordion.jsx";
 import axios from "axios";
@@ -9,6 +9,7 @@ import AddProject from "../components/AddProject.jsx";
 import AddPublicationContent from "../components/AddPublicationContent.jsx";
 import AddCreator from "../components/AddCreator.jsx";
 import Organization from "../components/AddOrganization.jsx";
+import { PublicationFormProvider } from "../components/context/PublicationFormContext.jsx";
 
 function AddPublication(props) {
     const fileUploadRef = useRef(null);
@@ -33,7 +34,7 @@ function AddPublication(props) {
     });
     const [fileId, setFileId] = useState(null);
     useEffect(() => {
-        if (fileId !== null || fileId != undefined) {
+        if (fileId !== null || fileId !== undefined) {
             const allFormData = {
                 doi,
                 selectedResourceType,
@@ -49,10 +50,15 @@ function AddPublication(props) {
                 window.location.href = "/list"
             }
 
-            submitData()
+            // submitData()
 
         }
     }, [fileId]);
+
+    const handleCtxChange = (e) => {
+        const { nm, value } = e.target;
+        updateFormData(nm, value);
+    };
 
     const handleFileUpload = (file) => {
         fileUploadRef.current.handleUpload();
@@ -132,6 +138,7 @@ function AddPublication(props) {
     };
     return (
         <>
+            <PublicationFormProvider>
             <Form noValidate validated={validated} onSubmit={handleSubmit} className="accordion-form">
                 <Row>
                     <Col xs={12} lg={12} md={12}>
@@ -140,6 +147,7 @@ function AddPublication(props) {
                 </Row>
                 <Button variant="outline-success" type="submit" size="lg">Publish</Button>
             </Form>
+            </PublicationFormProvider>
         </>
     );
 }

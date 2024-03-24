@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
+import { PublicationFormContext } from "../context/PublicationFormContext.jsx";
 
 export const PublicationControl = (props) => {
-    const { files, setFiles, idx, fileProps } = props;
-    const {file} = fileProps;
+    const { frmData, updateFormData, validationErrors } = useContext(PublicationFormContext);
+    const { files, setFiles, idx, fileProps, docType } = props;
+    const { file } = fileProps;
     const [resourceType, setResourceType] = useState(null);
     const [selectedMediaType, setSelectedMediaType] = useState(null);
     const [selectedIdentifierType, setSelectedIdentifierType] = useState(null);
@@ -12,12 +14,27 @@ export const PublicationControl = (props) => {
     const [raidDoi, setRaidDoi] = useState("");
     const [dataciteDoi, setdataciteDoi] = useState("");
     const [crossRefDoi, setcrossRefDoi] = useState("");
-    const [apiUrl, setApiUrl] = useState("")
+    const [apiUrl, setApiUrl] = useState("");
+
+    useEffect(() => {
+        frmData[docType] = files.map(f => ({ title: f.title, description: f.description, mediaType: f.mediaType }));
+        updateFormData(docType, frmData[docType]);
+    }, [files]);
+
+    useEffect(() => {
+        document.getElementById(`ident_${docType}_${idx}`).value = doi
+    }, [doi]);
+
+    const isPublication = docType === "publications";
     const generateDoi = () => {
         const min = 10.1000 / 182;
         const max = 10.9999 / 999;
         const newDoi = min + Math.random() * (max - min);
         setDoi(newDoi.toFixed(5));
+
+        const uPubs = [...frmData[docType]];
+        uPubs[idx].identifier_value = newDoi.toFixed(5);
+        updateFormData(`${docType}`, uPubs);
     };
     const generateRaidDoi = () => {
         const min = 13.1010 / 1000;
@@ -209,16 +226,30 @@ export const PublicationControl = (props) => {
     const handleRemoveFile = (index) => {
         const updatedFiles = files.filter((_, i) => i !== index);
         setFiles(updatedFiles);
-        window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`
+        window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`;
     };
 
     const handleMediaTypeChange = (selectedOption) => {
         setSelectedMediaType(selectedOption);
+        const uPubs = [...frmData[docType]];
+        uPubs[idx].type = selectedOption.value;
+        updateFormData(`${docType}`, uPubs);
     };
 
     const handleIdentifierTypeChange = (selectedIdentifierType) => {
-        setSelectedIdentifierType(selectedIdentifierType);
-        setApiUrl(selectedIdentifierType.url);
+        if (isPublication) {
+            setSelectedIdentifierType(selectedIdentifierType);
+            setApiUrl(selectedIdentifierType.url);
+
+            const uPubs = [...frmData[docType]];
+            uPubs[idx].identifier = selectedIdentifierType.value;
+            updateFormData(`${docType}`, uPubs);
+        } else {
+            const uPubs = [...frmData[docType]];
+            uPubs[idx].identifier_value = selectedIdentifierType.target.value;
+            updateFormData(`${docType}`, uPubs);
+            // setDoi(selectedIdentifierType.target.value)
+        }
     };
 
     const handleGenerateId = async (index) => {
@@ -241,6 +272,10 @@ export const PublicationControl = (props) => {
         });
         console.log("FormData:", formData);
     };
+    const handleCtxChange = (e) => {
+        const { nm, value } = e.target;
+        updateFormData(nm, value);
+    };
 
     return (
         <div>
@@ -261,8 +296,13 @@ export const PublicationControl = (props) => {
                         <Form.Control
                             required
                             type="text"
-                            name="title"
                             placeholder="Enter title"
+                            name={`title`}
+                            onChange={e => {
+                                const uDoc = [...frmData[docType]];
+                                uDoc[idx].title = e.target.value;
+                                updateFormData(`${docType}`, uDoc);
+                            }}
                         />
                     </Form.Group>
                 </Col>
@@ -274,12 +314,17 @@ export const PublicationControl = (props) => {
                             type="text"
                             name="description"
                             placeholder="Enter description"
+                            onChange={e => {
+                                const uDoc = [...frmData[docType]];
+                                uDoc[idx].description = e.target.value;
+                                updateFormData(`${docType}`, uDoc);
+                            }}
                         />
                     </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group>
-                        <Form.Label>Publication Type</Form.Label>
+                        <Form.Label>{docType} Type</Form.Label>
                         <Select placeholder="Select AddDocument Type" options={mediaOptions}
                                 onChange={(selected) => handleMediaTypeChange(selected)} />
                     </Form.Group>
@@ -289,9 +334,10 @@ export const PublicationControl = (props) => {
                     <Select placeholder="Select ID" options={identifierOptions}
                             className="m-3"
                             isDisabled={!selectedMediaType || false}
+                            name={`${docType}[${idx}].type`}
                             onChange={(e) => handleIdentifierTypeChange(e)} />
                 </Col>
-                <Col>
+                <Col hidden={!isPublication}>
                     <Form.Label>Identifier</Form.Label>
                     <Button variant="info" size="m" className="m-3" onClick={() => generateDoi(idx)}
                             disabled={!selectedIdentifierType || false}>
@@ -301,8 +347,8 @@ export const PublicationControl = (props) => {
                 </Col>
                 <Col>
                     <Form.Label>Identifier</Form.Label>
-                    <Form.Control value={doi} onChange={(e) => handleIdentifierTypeChange(e, idx)}
-                                  readOnly /></Col>
+                    <Form.Control id={`ident_${docType}_${idx}`} type="text" onChange={(e) => handleIdentifierTypeChange(e)}
+                                  readOnly={isPublication} /></Col>
                 <Col>
                     <Form.Label>Remove</Form.Label>
                     <Button variant="danger" onClick={() => handleRemoveFile(idx)} size="sm">X</Button>

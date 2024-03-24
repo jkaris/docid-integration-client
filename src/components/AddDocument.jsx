@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Select from "react-select";
+import { PublicationControl } from "./addfile/PublicationControl.jsx";
+import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
 const AddDocument = () => {
+    // const { frmData, updateFormData } = useContext(PublicationFormContext);
+    // fileProps { file, title, description, mediaType }
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
     const [resourceType, setResourceType] = useState(null);
@@ -12,6 +16,8 @@ const AddDocument = () => {
     const [raidDoi, setRaidDoi] = useState('');
     const [dataciteDoi, setdataciteDoi] = useState('');
     const [crossRefDoi, setcrossRefDoi] = useState('');
+
+
     const generateDoi = () => {
         const min = 10.1000 / 182;
         const max = 10.9999 / 999;
@@ -110,77 +116,8 @@ const AddDocument = () => {
                 <Form.Label>Upload Files</Form.Label>
                 <Form.Control type="file" multiple onChange={handleFileChange} />
             </Form.Group>
-            {files.map(({ file, title, description, mediaType }, index) => (
-                <div key={index}>
-                    <Row className="m-3">
-                        <Col>
-                            <Form.Group controlId={`fileName_${index}`}>
-                                <Form.Label>File Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={file.name}
-                                    readOnly
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group controlId={`fileTitle_${index}`}>
-                                <Form.Label>Title</Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    name="title"
-                                    placeholder="Enter title"
-                                    value={title || ""}
-                                    onChange={(e) => handleMetadataChange(e, index)}
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group controlId={`fileDescription_${index}`}>
-                                <Form.Label>Description</Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    name="description"
-                                    placeholder="Enter description"
-                                    value={description || ""}
-                                    onChange={(e) => handleMetadataChange(e, index)}
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Group controlId={`fileMediaType_${index}`}>
-                                <Form.Label>AddDocument Type</Form.Label>
-                                <Select placeholder="Select AddDocument Type" options={mediaOptions}
-                                        onChange={(selected) => handleMediaTypeChange(selected, index)} />
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Form.Label>Identifier</Form.Label>
-                            <Select placeholder="Select ID" options={identifierOptions}
-                                    className="m-3" id="idSelector"
-                                    isDisabled={!selectedMediaType || false}
-                                    onChange={(e) => handleIdentifierTypeChange(e, index)} />
-                        </Col>
-                        <Col>
-                            <Form.Label>Identifier</Form.Label>
-                            <Button variant="info" size="m" className="m-3" onClick={() => generateDoi(index)}
-                                    disabled={!selectedIdentifierType || false}>
-                                {selectedIdentifierType ? selectedIdentifierType.label : "Select an ID option"}
-                            </Button>
-
-                        </Col>
-                        <Col>
-                            <Form.Label>Identifier</Form.Label>
-                            <Form.Control value={doi} onChange={(e) => handleIdentifierTypeChange(e, index)}
-                                          readOnly/></Col>
-                        <Col>
-                            <Form.Label>Remove</Form.Label>
-                            <Button variant="danger" onClick={() => handleRemoveFile(index)} size="sm">X</Button>
-                        </Col>
-                    </Row>
-                </div>
+            {files.map((fileProps, index) => (
+                <PublicationControl key={index} files={files} setFiles={setFiles} fileProps={fileProps} idx={index} docType={"documents"}/>
             ))}
         </Form>
     );

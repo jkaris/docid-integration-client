@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, FloatingLabel } from "react-bootstrap";
 import Select from "react-select";
 import { PublicationControl } from "./addfile/PublicationControl.jsx";
+import { PublicationFormContext } from "./context/PublicationFormContext.jsx";
 
 const AddPublicationContent = () => {
+    // const { frmData, updateFormData } = useContext(PublicationFormContext);
     const [files, setFiles] = useState([]);
     const [metadata, setMetadata] = useState({ title: "", description: "", mediaType: "" });
-    const [docType, setDocType] = useState("publication");
     // const [resourceType, setResourceType] = useState(null);
     // const [selectedMediaType, setSelectedMediaType] = useState(null);
     // const [selectedIdentifierType, setSelectedIdentifierType] = useState(null);
@@ -174,8 +175,13 @@ const AddPublicationContent = () => {
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
         setFiles([...files, ...selectedFiles.map(file => ({ file, ...metadata }))]);
-        window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`
+        // window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`
     };
+
+    // useEffect(() => {
+    //     frmData.publications = files.map(f => ({ title: f.title, description: f.description, mediaType: f.mediaType }));
+    //     updateFormData("publications", frmData.publications);
+    // }, [files]);
     //
     // const handleMetadataChange = (e, index) => {
     //     const { name, value } = e.target;
@@ -220,15 +226,16 @@ const AddPublicationContent = () => {
     };
 
     return (
-            <Form onSubmit={handleSubmit}>
-                <Form.Group>
-                    <Form.Label>Upload Files</Form.Label>
-                    <Form.Control id="selectPubDocs" type="file" multiple onChange={handleFileChange} />
-                </Form.Group>
-                {files.map((fileProps, index) => (
-                   <PublicationControl key={index} files={files} setFiles={setFiles} fileProps={fileProps} idx={index} docType={docType}/>
-                ))}
-            </Form>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group>
+                <Form.Label>Upload Files</Form.Label>
+                <Form.Control id="selectPubDocs" type="file" multiple onChange={handleFileChange} />
+            </Form.Group>
+            {files.map((fileProps, index) => (
+                <PublicationControl key={index} files={files} setFiles={setFiles} fileProps={fileProps} idx={index}
+                                    docType={"publications"} />
+            ))}
+        </Form>
     );
 };
 

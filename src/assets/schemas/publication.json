@@ -13,7 +13,7 @@
                 "properties": {
                     "title": { "type": "string" },
                     "description": { "type": "string" },
-                    "publication_type": { "type": "string" },
+                    "type": { "type": "string" },
                     "identifier": { "type": "string" },
                     "identifier_value": { "type": "string" },
                     "file": {
@@ -35,7 +35,7 @@
                 "properties": {
                     "title": { "type": "string" },
                     "description": { "type": "string" },
-                    "document_type": { "type": "string" },
+                    "type": { "type": "string" },
                     "identifier": { "type": "string" },
                     "identifier_value": { "type": "string" },
                     "file": {
@@ -103,5 +103,5 @@
             }
         }
     },
-    "required": ["doc_id", "resource_type", "title", "description"]
+    "required": ["doc_id", "resource_type", "title", "description", "funders", "creators", "organizations", "projects"]
 }
