@@ -105,12 +105,6 @@ export const PublicationControl = (props) => {
             url: "http://"
         },
         {
-            value: "grid",
-            label: "GRID",
-            isDisabled: true,
-            url: "http://"
-        },
-        {
             value: "handle",
             label: "Handle",
             isDisabled: true,
@@ -198,12 +192,16 @@ export const PublicationControl = (props) => {
             label: "Chapter"
         },
         {
-            value: "proceeding",
-            label: "Proceeding"
+            value: "literature",
+            label: "Literature"
         },
         {
             value: "monograph",
             label: "Monograph"
+        },
+        {
+            value: "proceeding",
+            label: "Proceeding"
         },
         {
             value: "preprint",
@@ -298,7 +296,7 @@ export const PublicationControl = (props) => {
                         <Form.Label>File Name</Form.Label>
                         <Form.Control
                             type="text"
-                            value={"sadsadsa"}
+                            value={fileProps.name}
                             readOnly
                         />
                     </Form.Group>
