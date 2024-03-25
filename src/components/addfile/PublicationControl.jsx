@@ -25,7 +25,7 @@ export const PublicationControl = (props) => {
         document.getElementById(`ident_${docType}_${idx}`).value = doi;
     }, [doi]);
 
-    const isPublication = docType === "publications";
+    const isPublication = docType === "Publication";
     const generateDoi = () => {
         const min = 10.1000 / 182;
         const max = 10.9999 / 999;
@@ -42,26 +42,38 @@ export const PublicationControl = (props) => {
         const newRaidDoi = min + Math.random() * (max - min);
         setRaidDoi(newRaidDoi.toFixed(5));
     };
-    const identifierOptions = [
+
+    const documentIdentifierOptions = [
+        {
+            value: "ark",
+            label: "ARK"
+        },
+        {
+            value: "handle",
+            label: "Handle"
+        },
+    ];
+
+    const publicationIdentifierOptions = [
         {
             value: "doi",
             label: "DOI",
-            url: "http://doi"
+            url: "https://doi.org/api/"
         },
         {
             value: "datacite",
             label: "DataCite",
-            url: "http://"
+            url: "https://api.test.datacite.org/"
         },
         {
             value: "raid",
             label: "RAID",
-            url: "http://"
+            url: "https://app.test.raid.org.au/"
         },
         {
             value: "crossref",
             label: "CrossRef",
-            url: "http://"
+            url: "https://api.crossref.org/"
         },
         {
             value: "orcid",
@@ -178,7 +190,7 @@ export const PublicationControl = (props) => {
         }
     ];
 
-    const mediaOptions = [
+    const publicationOptions = [
         {
             value: "article",
             label: "Article"
@@ -206,26 +218,64 @@ export const PublicationControl = (props) => {
         {
             value: "preprint",
             label: "Preprint"
+        },
+        {
+            value: "book review",
+            label: "Book Review"
+        },
+        {
+            value: "conference abstract",
+            label: "Conference Abstract"
+        },
+        {
+            value: "conference paper",
+            label: "Conference Paper"
+        },
+        {
+            value: "correction erratum",
+            label: "Correction Erratum"
+        },
+        {
+            value: "editorial",
+            label: "Editorial"
+        },
+        {
+            value: "letter to editor",
+            label: "Letter to Editor"
+        },
+        {
+            value: "other book content",
+            label: "Other Book Content"
+        },
+        {
+            value: "other conference content",
+            label: "Other Conference Content"
+        },
+        {
+            value: "other journal content",
+            label: "Other Journal Content"
+        },
+        {
+            value: "reference work",
+            label: "Reference Work"
+        },
+        {
+            value: "research article",
+            label: "Research Article"
+        },
+        {
+            value: "research chapter",
+            label: "Research Chapter"
+        },
+        {
+            value: "scientific poster",
+            label: "Scientific Poster"
         }
     ];
-
-    // const handleFileChange = (e) => {
-    //     const selectedFiles = Array.from(e.target.files);
-    //     setFiles([...files, ...selectedFiles.map(file => ({ file, ...metadata }))]);
-    // };
-
-    // const handleMetadataChange = (e, index) => {
-    //     const { name, value } = e.target;
-    //     const updatedFiles = [...files];
-    //     updatedFiles[index][name] = value;
-    //     setFiles(updatedFiles);
-    // };
 
     const handleRemoveFile = (index) => {
         const updatedFiles = files.filter((_, i) => i !== index);
         setFiles(updatedFiles);
-        // setCtxFiles(updatedFiles)
-        // window.document.getElementById("selectPubDocs").textContent = `${files.length} Documents`;
     };
 
     const handleMediaTypeChange = (selectedOption) => {
@@ -237,14 +287,14 @@ export const PublicationControl = (props) => {
 
     const handleIdentifierChange = (selectedIdentifier) => {
 
-            setSelectedIdentifierType(selectedIdentifier);
-            setApiUrl(selectedIdentifier.url);
+        setSelectedIdentifierType(selectedIdentifier);
+        setApiUrl(selectedIdentifier.url);
 
-            const uPubs = [...frmData[docType]];
-            uPubs[idx].identifier = selectedIdentifier.value;
-            updateFormData(`${docType}`, uPubs);
+        const uPubs = [...frmData[docType]];
+        uPubs[idx].identifier = selectedIdentifier.value;
+        updateFormData(`${docType}`, uPubs);
 
-        };
+    };
 
     const handleIdentifierTypeChange = (selectedIdentifierType) => {
         if (isPublication) {
@@ -256,7 +306,7 @@ export const PublicationControl = (props) => {
             updateFormData(`${docType}`, uPubs);
         } else {
             const uPubs = [...frmData[docType]];
-            if(selectedIdentifierType?.target) {
+            if (selectedIdentifierType?.target) {
                 uPubs[idx].identifier_value = selectedIdentifierType.target.value;
                 updateFormData(`${docType}`, uPubs);
             }
@@ -271,22 +321,6 @@ export const PublicationControl = (props) => {
             console.log("Generating Handles for webinar");
         }
     };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData();
-    //     files.forEach(({ file, ...metadata }) => {
-    //         formData.append("files", file);
-    //         Object.entries(metadata).forEach(([key, value]) => {
-    //             formData.append(`${file.name}_${key}`, value);
-    //         });
-    //     });
-    //     console.log("FormData:", formData);
-    // };
-    // const handleCtxChange = (e) => {
-    //     const { nm, value } = e.target;
-    //     updateFormData(nm, value);
-    // };
 
     return (
         <div>
@@ -336,20 +370,20 @@ export const PublicationControl = (props) => {
                 <Col>
                     <Form.Group>
                         <Form.Label>{docType} Type</Form.Label>
-                        <Select placeholder="Select AddDocument Type" options={mediaOptions}
+                        <Select placeholder="Select AddDocument Type" options={publicationOptions}
                                 onChange={(selected) => handleMediaTypeChange(selected)} />
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Label>Identifier</Form.Label>
-                    <Select placeholder="Select ID" options={identifierOptions}
+                    <Form.Label>Select ID</Form.Label>
+                    <Select placeholder="Select ID" options={publicationIdentifierOptions}
                             className="m-3"
                             isDisabled={!selectedMediaType || false}
                             name={`${docType}[${idx}].type`}
                             onChange={(e) => handleIdentifierChange(e)} />
                 </Col>
                 <Col hidden={!isPublication}>
-                    <Form.Label>Identifier</Form.Label>
+                    <Form.Label>Generate ID</Form.Label>
                     <Button variant="info" size="m" className="m-3" onClick={() => generateDoi(idx)}
                             disabled={!selectedIdentifierType || false}>
                         {selectedIdentifierType ? selectedIdentifierType.label : "Select an ID option"}
@@ -357,12 +391,12 @@ export const PublicationControl = (props) => {
 
                 </Col>
                 <Col>
-                    <Form.Label>Identifier</Form.Label>
+                    <Form.Label>ID Value</Form.Label>
                     <Form.Control id={`ident_${docType}_${idx}`} type="text"
                                   onChange={(e) => handleIdentifierTypeChange(e)}
-                                  readOnly={isPublication} /></Col>
+                                  readOnly={isPublication} required /></Col>
                 <Col>
-                    <Form.Label>Remove</Form.Label>
+                    <Row><Form.Label>Remove</Form.Label></Row>
                     <Button variant="danger" onClick={() => handleRemoveFile(idx)} size="sm">X</Button>
                 </Col>
             </Row>
