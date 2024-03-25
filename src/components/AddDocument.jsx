@@ -30,35 +30,7 @@ const AddDocument = () => {
         const newRaidDoi = min + Math.random() * (max - min);
         setRaidDoi(newRaidDoi.toFixed(5));
     };
-    const identifierOptions = [
-        {
-            value: "ark",
-            label: "ARK"
-        },
-        {
-            value: "handle",
-            label: "Handle"
-        },
-    ];
 
-    const mediaOptions = [
-        {
-            value: "video",
-            label: "Video"
-        },
-        {
-            value: "illustration",
-            label: "Illustration"
-        },
-        {
-            value: "interview",
-            label: "Interview"
-        },
-        {
-            value: "webinar",
-            label: "Webinar"
-        }
-    ];
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -113,9 +85,6 @@ const AddDocument = () => {
         });
         console.log("FormData:", formData);
     };
-
-    const idSelector = <Select placeholder="Select ID" options={identifierOptions}
-                               className="m-3" isDisabled={true} id="idSelector" />;
 
     return (
         <Form onSubmit={handleSubmit}>
